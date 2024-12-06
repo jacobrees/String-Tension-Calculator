@@ -34,7 +34,11 @@
 </template>
 
 <script>
+
+
 export default {
+ 
+
   name: "GuitarStringSelector",
   props: {
     string: Object,

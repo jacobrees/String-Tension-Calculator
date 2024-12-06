@@ -6,6 +6,7 @@
         :index="index + 1"
         @update-gauge="updateGauge"
       />
+      <NotesFrequenciesSelector :index="index" />
     </div>
     <AddStringButton @add-string="addString" />
     <RemoveLastStringButton @remove-last-string="removeLastString" />
@@ -16,6 +17,7 @@
 import AddStringButton from "./components/AddStringButton.vue";
 import GuitarStringSelector from "./components/GuitarStringSelector.vue";
 import RemoveLastStringButton from "./components/RemoveLastStringButton.vue";
+import NotesFrequenciesSelector from "./components/NotesFrequenciesSelector.vue"; // Import the NotesFrequenciesSelector
 
 export default {
   name: "App",
@@ -23,15 +25,15 @@ export default {
     GuitarStringSelector,
     AddStringButton,
     RemoveLastStringButton,
+    NotesFrequenciesSelector, // Register the NotesFrequenciesSelector component
   },
   data() {
     return {
-      strings: Array(6).fill({ gauge: "" }),
+      strings: Array(6).fill({ id: 1, label: "", type: "plain", gauge: "" }),
     };
   },
   methods: {
     removeLastString() {
-      // Remove the highest indexed string (the last string)
       this.strings.pop();
     },
     addString() {
