@@ -1,6 +1,5 @@
 <template>
-
-  <label :for="id">Select a String Gauge:</label>
+  <label :for="id">String Gauge:</label>
   <select v-model="selectedGauge" :id="id">
     <optgroup label="Plain Strings">
       <option
@@ -21,6 +20,7 @@
       </option>
     </optgroup>
   </select>
+  <br>
   <p v-if="selectedGauge">
     Selected: {{ selectedGauge.gauge }} ({{ selectedGauge.type }}) - Mass:
     {{ selectedGauge.mass }} g/m
@@ -29,6 +29,13 @@
 
 <script>
 export default {
+  name: "StringSelector",
+  props: {
+    id: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       selectedGauge: null,
