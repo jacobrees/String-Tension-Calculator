@@ -1,44 +1,48 @@
 <template>
-  <label :for="id">String Gauge:</label>
-  <select v-model="selectedGauge" :id="id">
-    <optgroup label="Plain Strings">
-      <option
-        v-for="(mass, gauge) in stringMasses.plain"
-        :key="'plain-' + gauge"
-        :value="{ type: 'plain', gauge, mass }"
-      >
-        {{ gauge }}
-      </option>
-    </optgroup>
-    <optgroup label="Wound Strings">
-      <option
-        v-for="(mass, gauge) in stringMasses.wound"
-        :key="'wound-' + gauge"
-        :value="{ type: 'wound', gauge, mass }"
-      >
-        {{ gauge }}
-      </option>
-    </optgroup>
-  </select>
-  <br>
-  <p v-if="selectedGauge">
-    Selected: {{ selectedGauge.gauge }} ({{ selectedGauge.type }}) - Mass:
-    {{ selectedGauge.mass }} g/m
-  </p>
+  <div>
+    <label :for="'string-selector-' + index">String {{ index }}:</label>
+    <select
+      :id="'string-selector-' + index"
+      v-model="selectedOption"
+      @change="updateSelection"
+    >
+      <option disabled value="">Select a string type and gauge</option>
+
+      <!-- Plain Strings Group -->
+      <optgroup label="Plain Strings">
+        <option
+          v-for="(gauge, index) in plainGauges"
+          :key="'plain-' + index"
+          :value="'plain - ' + gauge"
+        >
+          Plain - {{ gauge }}
+        </option>
+      </optgroup>
+
+      <!-- Wound Strings Group -->
+      <optgroup label="Wound Strings">
+        <option
+          v-for="(gauge, index) in woundGauges"
+          :key="'wound-' + index"
+          :value="'wound - ' + gauge"
+        >
+          Wound - {{ gauge }}
+        </option>
+      </optgroup>
+    </select>
+  </div>
 </template>
 
 <script>
 export default {
-  name: "StringSelector",
+  name: "GuitarStringSelector",
   props: {
-    id: {
-      type: String,
-      required: true,
-    },
+    string: Object,
+    index: Number,
   },
   data() {
     return {
-      selectedGauge: null,
+      selectedOption: `${this.string.type} - ${this.string.gauge}`, // Default to string type and gauge
       stringMasses: {
         plain: {
           ".008": 0.32,
@@ -173,16 +177,33 @@ export default {
       },
     };
   },
+  computed: {
+    plainGauges() {
+      return Object.keys(this.stringMasses.plain);
+    },
+    woundGauges() {
+      return Object.keys(this.stringMasses.wound);
+    },
+  },
   methods: {
-    getMass(gauge) {
-      if (this.stringMasses.plain[gauge]) {
-        return this.stringMasses.plain[gauge];
-      }
-      if (this.stringMasses.wound[gauge]) {
-        return this.stringMasses.wound[gauge];
-      }
-      return "Unknown";
+    updateSelection() {
+      const [type, gauge] = this.selectedOption.split(" - ");
+      this.string.type = type.toLowerCase(); // Set type as 'plain' or 'wound'
+      this.string.gauge = gauge; // Set selected gauge
+      this.$emit("update-gauge", {
+        stringId: this.string.id,
+        gauge: this.string.gauge,
+      });
+    },
+  },
+  watch: {
+    selectedOption(newValue) {
+      this.updateSelection();
     },
   },
 };
 </script>
+
+<style scoped>
+/* Add component-specific styles here */
+</style>
