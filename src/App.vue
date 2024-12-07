@@ -258,11 +258,11 @@ export default {
     },
 
     calculateRelativeScaleLengths() {
-      const totalScaleLength = this.highScaleLength - this.lowScaleLength;
+      const totalScaleLength = this.lowScaleLength - this.highScaleLength;
       this.strings.forEach((string, index) => {
         const position = index; // Start from 0
         string.relativeScaleLength =
-          this.lowScaleLength +
+          this.highScaleLength +
           totalScaleLength * (position / (this.strings.length - 1));
         this.calculateTension(index);
       });
