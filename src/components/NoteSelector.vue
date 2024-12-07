@@ -1,7 +1,7 @@
 <template>
   <div class="note-selector">
     <!-- Select the note for the string -->
-    <label :for="'note' + index">String {{ index }} Note:</label>
+    <label :for="'note' + index">String {{ index + 1 }} Note:</label>
     <select :id="'note' + index" v-model="selectedNote" @change="updateNote">
       <option v-for="(freq, note) in notes" :key="note" :value="note">
         {{ note }}

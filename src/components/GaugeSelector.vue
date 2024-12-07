@@ -1,7 +1,7 @@
 <template>
   <div class="gauge-selector">
     <!-- Select the gauge for the string -->
-    <label :for="'gauge' + index">String {{ index }} Gauge:</label>
+    <label :for="'gauge' + index">String {{ index + 1 }} Gauge:</label>
     <select :id="'gauge' + index" v-model="selectedGauge" @change="updateGauge">
       <optgroup label="Plain">
         <option v-for="gauge in plainGauges" :key="gauge" :value="gauge">

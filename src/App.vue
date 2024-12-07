@@ -196,6 +196,9 @@ export default {
       // Convert Newtons to pounds
       const tensionPounds = tensionNewtons * 0.224809;
 
+      // Log the calculated tension in pounds
+      console.log(`Tension in Pounds: ${tensionPounds}`);
+
       // Set the calculated tension for the string
       this.strings[index].tension = tensionPounds;
 
@@ -216,6 +219,8 @@ export default {
       });
       // Calculate tension for the new string
       this.calculateTension(this.strings.length - 1);
+      // Recalculate relative scale lengths
+      this.calculateRelativeScaleLengths();
     },
 
     getNoteBelow(note, semitones) {
@@ -248,29 +253,17 @@ export default {
       if (this.strings.length > 1) {
         this.strings.pop();
       }
+      // Recalculate relative scale lengths
+      this.calculateRelativeScaleLengths();
     },
 
     calculateRelativeScaleLengths() {
-      // Calculate the total difference in scale lengths
-      const totalScaleLength = this.lowScaleLength - this.highScaleLength;
-
-      // Calculate relative scale lengths for each string
+      const totalScaleLength = this.highScaleLength - this.lowScaleLength;
       this.strings.forEach((string, index) => {
-        // Calculate the relative position of the string
         const position = index; // Start from 0
-
-        // Calculate relative scale length
-        if (this.strings.length === 1) {
-          // If there's only one string, set both lengths to lowScaleLength
-          string.relativeScaleLength = this.lowScaleLength;
-        } else {
-          // Distribute the scale lengths from high to low
-          string.relativeScaleLength =
-            this.highScaleLength +
-            totalScaleLength * (position / (this.strings.length - 1));
-        }
-
-        // Calculate tension for each string after updating its relative scale length
+        string.relativeScaleLength =
+          this.lowScaleLength +
+          totalScaleLength * (position / (this.strings.length - 1));
         this.calculateTension(index);
       });
     },
@@ -280,6 +273,8 @@ export default {
     this.strings.forEach((string, index) => {
       this.calculateTension(index);
     });
+    // Calculate relative scale lengths on app start
+    this.calculateRelativeScaleLengths();
   },
 };
 </script>
