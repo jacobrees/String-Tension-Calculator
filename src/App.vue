@@ -1,11 +1,30 @@
 <template>
   <div id="app">
+    <div>
+      <label for="lowScaleLength">Low Scale Length (inches):</label>
+      <input
+        type="number"
+        id="lowScaleLength"
+        v-model="lowScaleLength"
+        @input="calculateRelativeScaleLengths"
+      />
+    </div>
+    <div>
+      <label for="highScaleLength">High Scale Length (inches):</label>
+      <input
+        type="number"
+        id="highScaleLength"
+        v-model="highScaleLength"
+        @input="calculateRelativeScaleLengths"
+      />
+    </div>
     <table>
       <thead>
         <tr>
           <th>String</th>
           <th>Note</th>
           <th>Gauge</th>
+          <th>Relative Scale Length</th>
           <th>Tension (lbs)</th>
         </tr>
       </thead>
@@ -25,6 +44,13 @@
               :defaultGauge="string.gauge"
               @update-gauge="updateGauge(index, $event)"
             />
+          </td>
+          <td>
+            {{
+              string.relativeScaleLength !== null
+                ? string.relativeScaleLength.toFixed(2)
+                : "N/A"
+            }}
           </td>
           <td>
             {{ string.tension !== null ? string.tension.toFixed(2) : "N/A" }}
@@ -55,7 +81,8 @@ export default {
   },
   data() {
     return {
-      scaleLength: 25.5, // Ensure accurate scale length
+      lowScaleLength: 25.5, // Default low scale length
+      highScaleLength: 25.5, // Default high scale length
       plainGauges: Object.keys(stringMasses.plain),
       woundGauges: Object.keys(stringMasses.wound),
       strings: [
@@ -66,6 +93,7 @@ export default {
           gauge: "0.010",
           note: "E4",
           tension: null,
+          relativeScaleLength: null, // Default relative scale length
         },
         {
           id: 2,
@@ -74,6 +102,7 @@ export default {
           gauge: "0.013",
           note: "B3",
           tension: null,
+          relativeScaleLength: null, // Default relative scale length
         },
         {
           id: 3,
@@ -82,6 +111,7 @@ export default {
           gauge: "0.017",
           note: "G3",
           tension: null,
+          relativeScaleLength: null, // Default relative scale length
         },
         {
           id: 4,
@@ -90,6 +120,7 @@ export default {
           gauge: "0.026",
           note: "D3",
           tension: null,
+          relativeScaleLength: null, // Default relative scale length
         },
         {
           id: 5,
@@ -98,6 +129,7 @@ export default {
           gauge: "0.036",
           note: "A2",
           tension: null,
+          relativeScaleLength: null, // Default relative scale length
         },
         {
           id: 6,
@@ -106,6 +138,7 @@ export default {
           gauge: "0.046",
           note: "E2",
           tension: null,
+          relativeScaleLength: null, // Default relative scale length
         },
       ],
     };
@@ -145,7 +178,7 @@ export default {
       const massPerLengthKgM = (massPerLength / 0.0254) * 0.453592;
 
       // Convert scale length to meters
-      const scaleLengthMeters = this.scaleLength * 0.0254; // Ensure this conversion is correct
+      const scaleLengthMeters = string.relativeScaleLength * 0.0254; // Ensure this conversion is correct
 
       // Log details for debugging
       console.log(`Calculating Tension for String ${index + 1}`);
@@ -163,9 +196,6 @@ export default {
       // Convert Newtons to pounds
       const tensionPounds = tensionNewtons * 0.224809;
 
-      // Log the calculated tension in pounds
-      console.log(`Tension in Pounds: ${tensionPounds}`);
-
       // Set the calculated tension for the string
       this.strings[index].tension = tensionPounds;
 
@@ -182,6 +212,7 @@ export default {
         gauge: "0.010", // Default gauge
         type: "plain", // Default to plain string
         label: `String ${this.strings.length + 1}`,
+        relativeScaleLength: null, // Default relative scale length
       });
       // Calculate tension for the new string
       this.calculateTension(this.strings.length - 1);
@@ -217,6 +248,31 @@ export default {
       if (this.strings.length > 1) {
         this.strings.pop();
       }
+    },
+
+    calculateRelativeScaleLengths() {
+      // Calculate the total difference in scale lengths
+      const totalScaleLength = this.lowScaleLength - this.highScaleLength;
+
+      // Calculate relative scale lengths for each string
+      this.strings.forEach((string, index) => {
+        // Calculate the relative position of the string
+        const position = index; // Start from 0
+
+        // Calculate relative scale length
+        if (this.strings.length === 1) {
+          // If there's only one string, set both lengths to lowScaleLength
+          string.relativeScaleLength = this.lowScaleLength;
+        } else {
+          // Distribute the scale lengths from high to low
+          string.relativeScaleLength =
+            this.highScaleLength +
+            totalScaleLength * (position / (this.strings.length - 1));
+        }
+
+        // Calculate tension for each string after updating its relative scale length
+        this.calculateTension(index);
+      });
     },
   },
   mounted() {
