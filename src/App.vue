@@ -1,13 +1,14 @@
 <template>
   <div id="app">
     <div v-for="(string, index) in strings" :key="string.id">
+      <!-- Adjusting index here -->
       <GuitarStringSelector
         :string="string"
-        :index="index"
+        :index="index + 1" 
         @update-gauge="updateGauge"
       />
       <NotesFrequenciesSelector
-        :index="index"
+        :index="index + 1"
         :defaultNote="string.note"
         @update-note="updateStringNote"
       />
