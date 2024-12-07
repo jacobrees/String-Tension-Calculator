@@ -43,7 +43,7 @@ export default {
           id: 1,
           label: "String 1",
           type: "plain",
-          gauge: ".010",
+          gauge: "0.010",
           note: "E4",
           tension: null,
         },
@@ -51,7 +51,7 @@ export default {
           id: 2,
           label: "String 2",
           type: "plain",
-          gauge: ".013",
+          gauge: "0.013",
           note: "B3",
           tension: null,
         },
@@ -59,7 +59,7 @@ export default {
           id: 3,
           label: "String 3",
           type: "plain",
-          gauge: ".017",
+          gauge: "0.017",
           note: "G3",
           tension: null,
         },
@@ -67,7 +67,7 @@ export default {
           id: 4,
           label: "String 4",
           type: "wound",
-          gauge: ".026",
+          gauge: "0.026",
           note: "D3",
           tension: null,
         },
@@ -75,7 +75,7 @@ export default {
           id: 5,
           label: "String 5",
           type: "wound",
-          gauge: ".036",
+          gauge: "0.036",
           note: "A2",
           tension: null,
         },
@@ -83,7 +83,7 @@ export default {
           id: 6,
           label: "String 6",
           type: "wound",
-          gauge: ".046",
+          gauge: "0.046",
           note: "E2",
           tension: null,
         },
@@ -106,9 +106,26 @@ export default {
       );
       this.calculateTension(index);
     },
+
     calculateTension(index) {
       const string = this.strings[index];
       const frequency = notesFrequencies[string.note];
+
+      // Get the mass per unit length in lb/in
+      let massPerLength;
+      if (string.type === "plain") {
+        massPerLength = stringMasses.plain[string.gauge]; // Mass is already in lb/in
+      } else if (string.type === "wound") {
+        massPerLength = stringMasses.wound[string.gauge]; // Mass is already in lb/in
+      } else {
+        throw new Error("Invalid string type");
+      }
+
+      // Convert mass per unit length from lb/in to kg/m
+      const massPerLengthKgM = (massPerLength / 0.0254) * 0.453592;
+
+      // Convert scale length to meters
+      const scaleLengthMeters = this.scaleLength * 0.0254; // Ensure this conversion is correct
 
       // Log details for debugging
       console.log(`Calculating Tension for String ${index + 1}`);
@@ -116,45 +133,32 @@ export default {
       console.log(`Gauge: ${string.gauge}`);
       console.log(`Type: ${string.type}`);
       console.log(`Frequency: ${frequency} Hz`);
-
-      // Get the mass per unit length in kg/m
-      let massPerLength;
-      if (string.type === "plain") {
-        massPerLength = stringMasses.plain[string.gauge] / 1000; // Convert g/m to kg/m
-      } else if (string.type === "wound") {
-        massPerLength = stringMasses.wound[string.gauge] / 1000; // Convert g/m to kg/m
-      } else {
-        throw new Error("Invalid string type");
-      }
-
-      console.log(`Mass per length: ${massPerLength} kg/m`);
-
-      // Convert scale length to meters
-      const scaleLengthMeters = this.scaleLength * 0.0254; // Ensure this conversion is correct
+      console.log(`Mass per length: ${massPerLengthKgM} kg/m`);
       console.log(`Scale length: ${scaleLengthMeters} m`);
 
       // Calculate tension in Newtons using the formula T = μ * (2Lf)^2
       const tensionNewtons =
-        massPerLength * Math.pow(2 * scaleLengthMeters * frequency, 2);
-
-      console.log(`Tension in Newtons: ${tensionNewtons}`);
+        massPerLengthKgM * Math.pow(2 * scaleLengthMeters * frequency, 2);
 
       // Convert Newtons to pounds
       const tensionPounds = tensionNewtons * 0.224809;
 
+      // Log the calculated tension in pounds
       console.log(`Tension in Pounds: ${tensionPounds}`);
 
       // Set the calculated tension for the string
       this.strings[index].tension = tensionPounds;
 
+      // Log the final tension
       console.log(`Final Tension: ${tensionPounds.toFixed(2)} lbs`);
     },
+
     addString() {
-      // ... existing code ...
+      const newNote = "E4"; // Default note for the new string
       this.strings.push({
         note: newNote,
         tension: null,
-        gauge: ".010", // Default gauge
+        gauge: "0.010", // Default gauge
         type: "plain", // Default to plain string
         label: `String ${this.strings.length + 1}`,
       });
