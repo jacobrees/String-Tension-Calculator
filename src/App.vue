@@ -154,7 +154,8 @@ export default {
     },
 
     addString() {
-      const newNote = "E4"; // Default note for the new string
+      const lastNote = this.strings[this.strings.length - 1].note;
+      const newNote = this.getNoteBelow(lastNote, 5);
       this.strings.push({
         note: newNote,
         tension: null,
@@ -164,6 +165,21 @@ export default {
       });
       // Calculate tension for the new string
       this.calculateTension(this.strings.length - 1);
+    },
+
+    getNoteBelow(note, semitones) {
+      const chromaticScale = [
+        "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"
+      ];
+      const noteParts = note.match(/([A-G][#b]?)([0-9])/);
+      const noteName = noteParts[1];
+      const octave = parseInt(noteParts[2]);
+
+      const noteIndex = chromaticScale.indexOf(noteName);
+      const newIndex = (noteIndex - semitones + 12) % 12;
+      const newOctave = octave + Math.floor((noteIndex - semitones) / 12);
+
+      return chromaticScale[newIndex] + newOctave;
     },
 
     removeLastString() {
