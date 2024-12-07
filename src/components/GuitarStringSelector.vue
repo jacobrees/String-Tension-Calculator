@@ -1,32 +1,24 @@
 <template>
-  <div>
-    <label :for="'string-selector-' + index">String {{ index }}:</label>
-    <select
-      :id="'string-selector-' + index"
-      v-model="selectedOption"
-      @change="updateSelection"
-    >
-      <option disabled value="">Select a string type and gauge</option>
+  <div class="string-selector">
+    <!-- Select the note for the string -->
+    <label :for="'string' + index">String {{ index }} Note:</label>
+    <select :id="'string' + index" v-model="selectedNote" @change="updateNote">
+      <option v-for="(freq, note) in notes" :key="note" :value="note">
+        {{ note }}
+      </option>
+    </select>
 
-      <!-- Plain Strings Group -->
-      <optgroup label="Plain Strings">
-        <option
-          v-for="(gauge, index) in plainGauges"
-          :key="'plain-' + index"
-          :value="'plain - ' + gauge"
-        >
-          Plain - {{ gauge }}
+    <!-- Select the gauge for the string -->
+    <label :for="'gauge' + index">String {{ index }} Gauge:</label>
+    <select :id="'gauge' + index" v-model="selectedGauge" @change="updateGauge">
+      <optgroup label="Plain">
+        <option v-for="gauge in plainGauges" :key="gauge" :value="gauge">
+          {{ gauge }}
         </option>
       </optgroup>
-
-      <!-- Wound Strings Group -->
-      <optgroup label="Wound Strings">
-        <option
-          v-for="(gauge, index) in woundGauges"
-          :key="'wound-' + index"
-          :value="'wound - ' + gauge"
-        >
-          Wound - {{ gauge }}
+      <optgroup label="Wound">
+        <option v-for="gauge in woundGauges" :key="gauge" :value="gauge">
+          {{ gauge }}
         </option>
       </optgroup>
     </select>
@@ -34,49 +26,69 @@
 </template>
 
 <script>
+import notesFrequencies from "@/utils/notesFrequencies.js";
 import stringMasses from "@/utils/stringMasses.js";
 
 export default {
   name: "GuitarStringSelector",
   props: {
-    string: Object,
-    index: Number,
+    index: {
+      type: Number,
+      required: true,
+    },
+    defaultNote: {
+      type: String,
+      required: true,
+    },
+    scaleLength: {
+      type: Number,
+      required: true,
+    },
+    defaultGauge: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
-      // Default the selected option to 'wound - .046' for new strings
-      selectedOption: `${this.string.type || "wound"} - ${
-        this.string.gauge || ".046"
-      }`,
+      selectedNote: this.defaultNote,
+      selectedGauge: this.defaultGauge,
+      tension: null,
+      notes: notesFrequencies,
+      plainGauges: Object.keys(stringMasses.plain), // Plain string gauges
+      woundGauges: Object.keys(stringMasses.wound), // Wound string gauges
     };
   },
-  computed: {
-    plainGauges() {
-      return Object.keys(stringMasses.plain);
-    },
-    woundGauges() {
-      return Object.keys(stringMasses.wound);
-    },
-  },
   methods: {
-    updateSelection() {
-      const [type, gauge] = this.selectedOption.split(" - ");
-      this.string.type = type.toLowerCase(); // Set type as 'plain' or 'wound'
-      this.string.gauge = gauge; // Set selected gauge
+    updateNote() {
+      this.$emit("update-note", { index: this.index, note: this.selectedNote });
+    },
+
+    updateGauge() {
       this.$emit("update-gauge", {
-        stringId: this.string.id,
-        gauge: this.string.gauge,
+        index: this.index,
+        gauge: this.selectedGauge,
       });
     },
   },
+
   watch: {
-    selectedOption(newValue) {
-      this.updateSelection();
+    selectedNote() {
+      this.$emit("update-note", {
+        index: this.index,
+        note: this.selectedNote,
+      });
+    },
+    selectedGauge() {
+      this.$emit("update-gauge", {
+        index: this.index,
+        gauge: this.selectedGauge,
+      });
     },
   },
 };
 </script>
 
 <style scoped>
-/* Add component-specific styles here */
+/* Add your styles here */
 </style>
