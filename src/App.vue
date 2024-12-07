@@ -169,7 +169,18 @@ export default {
 
     getNoteBelow(note, semitones) {
       const chromaticScale = [
-        "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"
+        "C",
+        "C#",
+        "D",
+        "D#",
+        "E",
+        "F",
+        "F#",
+        "G",
+        "G#",
+        "A",
+        "A#",
+        "B",
       ];
       const noteParts = note.match(/([A-G][#b]?)([0-9])/);
       const noteName = noteParts[1];
@@ -187,6 +198,12 @@ export default {
         this.strings.pop();
       }
     },
+  },
+  mounted() {
+    // Calculate tension for all strings on app start
+    this.strings.forEach((string, index) => {
+      this.calculateTension(index);
+    });
   },
 };
 </script>
