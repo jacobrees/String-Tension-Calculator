@@ -4,7 +4,7 @@
       <!-- Adjusting index here -->
       <GuitarStringSelector
         :string="string"
-        :index="index + 1" 
+        :index="index + 1"
         @update-gauge="updateGauge"
       />
       <NotesFrequenciesSelector
@@ -23,6 +23,7 @@ import AddStringButton from "./components/AddStringButton.vue";
 import GuitarStringSelector from "./components/GuitarStringSelector.vue";
 import RemoveLastStringButton from "./components/RemoveLastStringButton.vue";
 import NotesFrequenciesSelector from "./components/NotesFrequenciesSelector.vue";
+import notesFrequencies from "@/utils/notesFrequencies.js";
 
 export default {
   name: "App",
@@ -54,16 +55,27 @@ export default {
         this.strings.pop(); // Ensure the array has strings before removing
       }
     },
+
     addString() {
-      const newStringNumber = this.strings.length + 1;
-      this.strings.push({
-        id: newStringNumber,
-        label: `String ${newStringNumber}`,
-        type: "plain",
-        gauge: ".010",
-        note: "E2", // Default note
-      });
+      // Get the last string's note
+      const lastStringNote = this.strings[this.strings.length - 1].note;
+
+      // Get the keys of notesFrequencies (already sorted by frequency)
+      const sortedNotes = Object.keys(notesFrequencies); // Ensure you're getting the keys of notes
+
+      // Find the index of the last string's note
+      const lastNoteIndex = sortedNotes.indexOf(lastStringNote);
+
+      // Calculate the new note index (5 semitones lower)
+      const newNoteIndex = Math.max(0, lastNoteIndex - 5);
+
+      // Get the new note
+      const newNote = sortedNotes[newNoteIndex];
+
+      // Add the new string
+      this.strings.push({ note: newNote });
     },
+
     updateGauge({ stringId, gauge }) {
       const stringToUpdate = this.strings.find((str) => str.id === stringId);
       if (stringToUpdate) {
