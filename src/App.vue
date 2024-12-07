@@ -1,19 +1,37 @@
 <template>
   <div id="app">
-    <div v-for="(string, index) in strings" :key="string.id">
-      <GuitarStringSelector
-        :key="index"
-        :index="index"
-        :defaultNote="string.note"
-        :defaultGauge="string.gauge"
-        :scaleLength="scaleLength"
-        @update-note="updateNote(index, $event)"
-        @update-gauge="updateGauge(index, $event)"
-      />
-      <p v-if="string.tension !== null">
-        Tension: {{ string.tension.toFixed(2) }} lbs
-      </p>
-    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>String</th>
+          <th>Note</th>
+          <th>Gauge</th>
+          <th>Tension (lbs)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(string, index) in strings" :key="string.id">
+          <td>{{ string.label }}</td>
+          <td>
+            <NoteSelector
+              :index="index"
+              :defaultNote="string.note"
+              @update-note="updateNote(index, $event)"
+            />
+          </td>
+          <td>
+            <GaugeSelector
+              :index="index"
+              :defaultGauge="string.gauge"
+              @update-gauge="updateGauge(index, $event)"
+            />
+          </td>
+          <td>
+            {{ string.tension !== null ? string.tension.toFixed(2) : "N/A" }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
     <AddStringButton @add-string="addString" />
     <RemoveLastStringButton @remove-last-string="removeLastString" />
   </div>
@@ -21,7 +39,8 @@
 
 <script>
 import AddStringButton from "./components/AddStringButton.vue";
-import GuitarStringSelector from "./components/GuitarStringSelector.vue";
+import NoteSelector from "./components/NoteSelector.vue";
+import GaugeSelector from "./components/GaugeSelector.vue";
 import RemoveLastStringButton from "./components/RemoveLastStringButton.vue";
 import stringMasses from "@/utils/stringMasses.js";
 import notesFrequencies from "@/utils/notesFrequencies.js";
@@ -29,7 +48,8 @@ import notesFrequencies from "@/utils/notesFrequencies.js";
 export default {
   name: "App",
   components: {
-    GuitarStringSelector,
+    NoteSelector,
+    GaugeSelector,
     AddStringButton,
     RemoveLastStringButton,
   },
@@ -210,4 +230,19 @@ export default {
 
 <style scoped>
 /* Add your styles here */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+th {
+  background-color: #f2f2f2;
+}
 </style>
