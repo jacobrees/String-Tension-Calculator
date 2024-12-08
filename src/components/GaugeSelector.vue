@@ -14,9 +14,6 @@
         </option>
       </optgroup>
     </select>
-    <!-- Arrow keys for navigation -->
-    <button @click="decrementGauge">⬇️</button>
-    <button @click="incrementGauge">⬆️</button>
   </div>
 </template>
 
@@ -48,21 +45,6 @@ export default {
         index: this.index,
         gauge: this.selectedGauge,
       });
-    },
-    incrementGauge() {
-      const gaugesArray = [...this.plainGauges, ...this.woundGauges];
-      const currentIndex = gaugesArray.indexOf(this.selectedGauge);
-      const newIndex = (currentIndex + 1) % gaugesArray.length;
-      this.selectedGauge = gaugesArray[newIndex];
-      this.updateGauge();
-    },
-    decrementGauge() {
-      const gaugesArray = [...this.plainGauges, ...this.woundGauges];
-      const currentIndex = gaugesArray.indexOf(this.selectedGauge);
-      const newIndex =
-        (currentIndex - 1 + gaugesArray.length) % gaugesArray.length;
-      this.selectedGauge = gaugesArray[newIndex];
-      this.updateGauge();
     },
   },
   watch: {

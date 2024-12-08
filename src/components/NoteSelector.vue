@@ -2,13 +2,12 @@
   <div class="note-selector">
     <!-- Select the note for the string -->
     <label :for="'note' + index">String {{ index + 1 }} Note:</label>
+    <button @click="decrementNote">⬇️</button>
     <select :id="'note' + index" v-model="selectedNote" @change="updateNote">
       <option v-for="(freq, note) in notes" :key="note" :value="note">
         {{ note }}
       </option>
     </select>
-    <!-- Arrow keys for navigation -->
-    <button @click="decrementNote">⬇️</button>
     <button @click="incrementNote">⬆️</button>
   </div>
 </template>
