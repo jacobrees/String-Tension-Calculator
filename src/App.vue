@@ -83,14 +83,12 @@ export default {
     return {
       lowScaleLength: 25.5, // Default low scale length
       highScaleLength: 25.5, // Default high scale length
-      plainGauges: Object.keys(stringMasses.plain),
-      woundGauges: Object.keys(stringMasses.wound),
+      gauges: Object.keys(stringMasses),
       strings: [
         {
           id: 1,
           label: "String 1",
-          type: "plain",
-          gauge: "0.010",
+          gauge: "0.010p",
           note: "E4",
           tension: null,
           relativeScaleLength: null, // Default relative scale length
@@ -98,8 +96,7 @@ export default {
         {
           id: 2,
           label: "String 2",
-          type: "plain",
-          gauge: "0.013",
+          gauge: "0.013p",
           note: "B3",
           tension: null,
           relativeScaleLength: null, // Default relative scale length
@@ -107,8 +104,7 @@ export default {
         {
           id: 3,
           label: "String 3",
-          type: "plain",
-          gauge: "0.017",
+          gauge: "0.017p",
           note: "G3",
           tension: null,
           relativeScaleLength: null, // Default relative scale length
@@ -116,8 +112,7 @@ export default {
         {
           id: 4,
           label: "String 4",
-          type: "wound",
-          gauge: "0.026",
+          gauge: "0.026w",
           note: "D3",
           tension: null,
           relativeScaleLength: null, // Default relative scale length
@@ -125,8 +120,7 @@ export default {
         {
           id: 5,
           label: "String 5",
-          type: "wound",
-          gauge: "0.036",
+          gauge: "0.036w",
           note: "A2",
           tension: null,
           relativeScaleLength: null, // Default relative scale length
@@ -134,8 +128,7 @@ export default {
         {
           id: 6,
           label: "String 6",
-          type: "wound",
-          gauge: "0.046",
+          gauge: "0.046w",
           note: "E2",
           tension: null,
           relativeScaleLength: null, // Default relative scale length
@@ -151,12 +144,6 @@ export default {
 
     updateGauge(index, data) {
       this.strings[index].gauge = data.gauge;
-      this.strings[index].type = this.woundGauges.includes(data.gauge)
-        ? "wound"
-        : "plain";
-      console.log(
-        `Updated string ${index + 1} to ${this.strings[index].type} type`
-      );
       this.calculateTension(index);
     },
 
@@ -165,14 +152,7 @@ export default {
       const frequency = notesFrequencies[string.note];
 
       // Get the mass per unit length in lb/in
-      let massPerLength;
-      if (string.type === "plain") {
-        massPerLength = stringMasses.plain[string.gauge]; // Mass is already in lb/in
-      } else if (string.type === "wound") {
-        massPerLength = stringMasses.wound[string.gauge]; // Mass is already in lb/in
-      } else {
-        throw new Error("Invalid string type");
-      }
+      let massPerLength = stringMasses[string.gauge];
 
       // Convert mass per unit length from lb/in to kg/m
       const massPerLengthKgM = (massPerLength / 0.0254) * 0.453592;
