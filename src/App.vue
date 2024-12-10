@@ -47,7 +47,7 @@
           </td>
           <td>
             {{
-              string.relativeScaleLength !== null
+              typeof string.relativeScaleLength === "number"
                 ? string.relativeScaleLength.toFixed(2)
                 : "N/A"
             }}
