@@ -11,11 +11,14 @@
         </p>
       </div>
       <div>
-        <img
-          class="w-[90px] h-[90px] invisible lg:visible"
-          src="/github.svg"
-          alt="Info Icon"
-        />
+        <a
+          target="_blank"
+          href="https://github.com/jacobrees/String-Tension-Calculator"
+          ><img
+            class="w-[90px] h-[90px] invisible lg:visible"
+            src="/github.svg"
+            alt="Info Icon"
+        /></a>
       </div>
     </div>
   </div>
