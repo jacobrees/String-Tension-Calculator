@@ -19,7 +19,7 @@
             <th class="border-r">String</th>
             <th class="border-r">Note</th>
             <th class="border-r">Gauge</th>
-            <th class="border-r hidden lg:table-cell">Relative Scale Length</th>
+            <th class="border-r hidden lg:table-cell">Scale Length</th>
             <th>Tension</th>
           </tr>
         </thead>
@@ -48,7 +48,7 @@
                 @update-gauge="updateGauge(index, $event)"
               />
             </td>
-            <td class="border-r">
+            <td class="border-r hidden lg:table-cell">
               <p class="w-full flex flex-row justify-center">
                 {{
                   typeof string.relativeScaleLength === "number"
@@ -57,7 +57,7 @@
                 }}
               </p>
             </td>
-            <td class="hidden lg:table-cell">
+            <td>
               <p class="w-full flex flex-row justify-center">
                 {{
                   string.tension !== null ? string.tension.toFixed(2) : "N/A"
@@ -69,7 +69,7 @@
       </table>
     </div>
     <div
-      class="w-full max-w-[1200px] mx-auto mt-5 flex flex-row justify-center lg:block"
+      class="w-full max-w-[1200px] mx-auto my-5 flex flex-row justify-center lg:block"
     >
       <AddStringButton @add-string="addString" />
       <RemoveLastStringButton @remove-last-string="removeLastString" />

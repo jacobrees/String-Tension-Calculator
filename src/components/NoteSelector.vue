@@ -1,7 +1,12 @@
 <template>
   <div class="note-selector w-full flex flex-col-reverse justify-center">
-    <button class="bg-gray-200" @click="decrementNote">Decrease</button>
-    <select :id="'note' + index" v-model="selectedNote" @change="updateNote">
+    <button class="bg-gray-200 py-1" @click="decrementNote">Decrease</button>
+    <select
+      class="py-1 border rounded-lg"
+      :id="'note' + index"
+      v-model="selectedNote"
+      @change="updateNote"
+    >
       <option
         class="text-center"
         v-for="(freq, note) in notes"
@@ -11,7 +16,7 @@
         {{ note }}
       </option>
     </select>
-    <button class="bg-gray-200" @click="incrementNote">Increase</button>
+    <button class="bg-gray-200 py-1" @click="incrementNote">Increase</button>
   </div>
 </template>
 
