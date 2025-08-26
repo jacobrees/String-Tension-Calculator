@@ -1,14 +1,17 @@
 <template>
-  <div class="note-selector">
-    <!-- Select the note for the string -->
-    <label :for="'note' + index">String {{ index + 1 }} Note:</label>
-    <button @click="decrementNote">⬇️</button>
+  <div class="note-selector w-full flex flex-col-reverse justify-center">
+    <button class="bg-gray-200" @click="decrementNote">Decrease</button>
     <select :id="'note' + index" v-model="selectedNote" @change="updateNote">
-      <option v-for="(freq, note) in notes" :key="note" :value="note">
+      <option
+        class="text-center"
+        v-for="(freq, note) in notes"
+        :key="note"
+        :value="note"
+      >
         {{ note }}
       </option>
     </select>
-    <button @click="incrementNote">⬆️</button>
+    <button class="bg-gray-200" @click="incrementNote">Increase</button>
   </div>
 </template>
 
@@ -63,7 +66,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-/* Add your styles here */
-</style>

@@ -1,5 +1,10 @@
 <template>
-  <button @click="addString">Add String</button>
+  <button
+    class="bg-[#2463eb] text-white p-2 rounded-md mr-5"
+    @click="addString"
+  >
+    Add String
+  </button>
 </template>
 
 <script>

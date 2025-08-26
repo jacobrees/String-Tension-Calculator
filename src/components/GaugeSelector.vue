@@ -1,7 +1,6 @@
 <template>
-  <div class="gauge-selector">
+  <div class="gauge-selector w-full flex flex-row justify-center">
     <!-- Select the gauge for the string -->
-    <label :for="'gauge' + index">String {{ index + 1 }} Gauge:</label>
     <select :id="'gauge' + index" v-model="selectedGauge" @change="updateGauge">
       <option v-for="gauge in gauges" :key="gauge" :value="gauge">
         {{ gauge }}
