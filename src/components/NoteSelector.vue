@@ -1,6 +1,6 @@
 <template>
   <div class="note-selector w-full flex flex-col-reverse justify-center">
-    <button class="bg-gray-200 py-1" @click="decrementNote">Decrease</button>
+    <button class="bg-gray-200 py-1" @click="decrementNote">Decrement</button>
     <select
       class="py-1 border rounded-lg"
       :id="'note' + index"
@@ -16,7 +16,7 @@
         {{ note }}
       </option>
     </select>
-    <button class="bg-gray-200 py-1" @click="incrementNote">Increase</button>
+    <button class="bg-gray-200 py-1" @click="incrementNote">Increment</button>
   </div>
 </template>
 
