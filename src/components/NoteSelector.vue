@@ -1,14 +1,22 @@
 <template>
-  <div class="note-selector">
-    <!-- Select the note for the string -->
-    <label :for="'note' + index">String {{ index + 1 }} Note:</label>
-    <button @click="decrementNote">⬇️</button>
-    <select :id="'note' + index" v-model="selectedNote" @change="updateNote">
-      <option v-for="(freq, note) in notes" :key="note" :value="note">
+  <div class="note-selector w-full flex flex-col-reverse justify-center">
+    <button class="bg-gray-200 py-1" @click="decrementNote">Decrement</button>
+    <select
+      class="py-1 border rounded-lg"
+      :id="'note' + index"
+      v-model="selectedNote"
+      @change="updateNote"
+    >
+      <option
+        class="text-center"
+        v-for="(freq, note) in notes"
+        :key="note"
+        :value="note"
+      >
         {{ note }}
       </option>
     </select>
-    <button @click="incrementNote">⬆️</button>
+    <button class="bg-gray-200 py-1" @click="incrementNote">Increment</button>
   </div>
 </template>
 
@@ -63,7 +71,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-/* Add your styles here */
-</style>
