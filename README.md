@@ -1,6 +1,6 @@
 # String Tension Calculator
 
-> This project is a string tension calculator for electric guitars. It is a project built in Vue.js
+> This project is a string tension calculator for hex core, nickel-plated steel strings. It is a project built in Vue.js
 
 # Live Website
 
