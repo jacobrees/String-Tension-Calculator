@@ -16,8 +16,8 @@
           href="https://github.com/jacobrees/String-Tension-Calculator"
           ><img
             class="w-[90px] h-[90px] invisible lg:visible"
-            src="/github.svg"
-            alt="Info Icon"
+            :src="githubLogo"
+            alt="GitHub Logo"
         /></a>
       </div>
     </div>
@@ -25,7 +25,13 @@
 </template>
 
 <script>
+import githubLogo from "@/assets/github.svg";
 export default {
   name: "TopNavigation",
+  data() {
+    return {
+      githubLogo, // expose to template
+    };
+  },
 };
 </script>
