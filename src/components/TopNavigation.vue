@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full flex flex-row justify-center items-center h-[110px] border-b-2 bg-white"
+    class="w-full flex flex-row justify-center items-center py-2 border-b-2 bg-white"
   >
     <div class="w-[1200px] flex flex-row justify-between items-center px-5">
       <div class="max-w-[600px]">
