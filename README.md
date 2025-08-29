@@ -1,6 +1,10 @@
 # String Tension Calculator
 
-> This project is a string tension calculator for hex core, nickel-plated steel strings. It is a project built in Vue.js
+> This project is a String Tension Calculator for hex core, nickel-plated steel guitar strings. It is a project built with Vue.js
+
+### String Tension Calculator Screenshot:
+
+![](screenshot/screenshot.png)
 
 # Live Website
 
@@ -20,7 +24,7 @@ $ git clone git@github.com:jacobrees/String-Tension-Calculator.git
 
 To launch an instance of this app. Inside your terminal, you will need to navigate into the repository you have just cloned. You will do this by using `cd` inside of your terminal.
 
-Once you are inside of this folder run the command `npm install` to install all dependencies & `npm run dev` to open the project in Google Chrome on a development server.
+Once you are inside of this folder run the command `npm install` to install all dependencies & `npm run dev` to run the project on a development server.
 
 Below shows the following commands you will need to run to achieve this:
 
@@ -38,7 +42,7 @@ $ npm run dev
 
 # Scripts
 
-Below are a list of scripts you can use with Webpack.
+Below are a list of scripts you can use with Vite.
 
 run `npm install` to install all packages associated with project. You will need to do this before you can run any of the other commands listed below.
 
@@ -60,9 +64,9 @@ $ npm run build
 
 ## Built With
 
+- Vue.js
 - Tailwind
 - Vite
-- Vue.js
 
 ## Authors
 
