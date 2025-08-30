@@ -2,7 +2,7 @@
   <div class="gauge-selector w-full relative flex flex-row justify-center">
     <!-- Select the gauge for the string -->
     <select
-      class="block appearance-none text-center w-full py-1 border rounded-lg [text-align-last:center]"
+      class="bg-white block appearance-none text-center w-full py-1 border rounded-lg [text-align-last:center]"
       :id="'gauge' + index"
       v-model="selectedGauge"
       @change="updateGauge"
