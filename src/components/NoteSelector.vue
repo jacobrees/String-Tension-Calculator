@@ -14,7 +14,7 @@
       </option>
     </select>
     <span
-      class="pointer-events-none text-[12px] absolute inset-y-0 right-2 flex items-center text-gray-500"
+      class="pointer-events-none text-[12px] absolute inset-y-0 right-1 flex items-center text-gray-500"
     >
       ▼
     </span>
