@@ -1,8 +1,8 @@
 <template>
-  <div class="gauge-selector w-full flex flex-row justify-center">
+  <div class="gauge-selector w-full relative flex flex-row justify-center">
     <!-- Select the gauge for the string -->
     <select
-      class="w-full text-center py-1 border rounded-lg"
+      class="block appearance-none text-center w-full py-1 border rounded-lg [text-align-last:center]"
       :id="'gauge' + index"
       v-model="selectedGauge"
       @change="updateGauge"
@@ -11,6 +11,11 @@
         {{ gauge }}
       </option>
     </select>
+    <span
+      class="pointer-events-none text-[12px] absolute inset-y-0 right-2 flex items-center text-gray-500"
+    >
+      ▼
+    </span>
   </div>
 </template>
 
