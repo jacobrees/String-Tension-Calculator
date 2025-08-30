@@ -10,7 +10,7 @@
     >
       <div class="px-5 bg-gray-50">
         <h3 class="text-[22px] py-1">String Tension Analysis</h3>
-        <p class="text-[14px] pb-2">Individual string tensions</p>
+        <p class="text-[14px] pb-2">Individual string tensions in lb</p>
       </div>
 
       <table class="w-full table-auto border-t border-gray-300">
