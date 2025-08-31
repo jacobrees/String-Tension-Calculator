@@ -8,7 +8,7 @@
         <label class="text-[12px]">Instrument:</label>
         <div class="relative w-[200px]">
           <select
-            class="w-full border-solid border-2 rounded-md appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
+            class="bg-white block appearance-none w-full py-1 border rounded-lg"
             :value="instrumentType"
             @change="$emit('update:instrumentType', $event.target.value)"
           >
