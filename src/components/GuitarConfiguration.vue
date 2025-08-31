@@ -12,8 +12,8 @@
             :value="instrumentType"
             @change="$emit('update:instrumentType', $event.target.value)"
           >
-            <option value="guitar">Guitar</option>
-            <option value="bass">Bass</option>
+            <option class="text-[20px]" value="guitar">Guitar</option>
+            <option class="text-[20px]" value="bass">Bass</option>
           </select>
           <span
             class="pointer-events-none text-[12px] absolute right-1 top-1/2 -translate-y-1/2 text-gray-500"
@@ -27,7 +27,7 @@
           >Low Scale Length (inches):</label
         >
         <input
-          class="text-[20px] w-[200px] border-solid border-2 rounded-md appearance-none"
+          class="text-[20px] w-[200px] border-solid border-2 rounded-md appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
           type="number"
           :value="lowScaleLength"
           @input="$emit('update:lowScaleLength', +$event.target.value)"
@@ -38,7 +38,7 @@
           >High Scale Length (inches):</label
         >
         <input
-          class="!text-black text-[20px] w-[200px] border-solid border-2 rounded-md appearance-none"
+          class="!text-black text-[20px] w-[200px] border-solid border-2 rounded-md appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
           type="number"
           :value="highScaleLength"
           @input="$emit('update:highScaleLength', +$event.target.value)"
