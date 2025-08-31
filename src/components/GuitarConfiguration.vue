@@ -8,7 +8,7 @@
         <label class="text-[12px]">Instrument:</label>
         <div class="relative w-[200px]">
           <select
-            class="bg-white block appearance-none w-full py-1 border rounded-lg"
+            class="text-[20px] bg-white block appearance-none rounded-lg w-[200px] border-solid border-2"
             :value="instrumentType"
             @change="$emit('update:instrumentType', $event.target.value)"
           >
@@ -27,7 +27,7 @@
           >Low Scale Length (inches):</label
         >
         <input
-          class="w-[200px] border-solid border-2 rounded-md appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
+          class="text-[20px] w-[200px] border-solid border-2 rounded-md appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
           type="number"
           :value="lowScaleLength"
           @input="$emit('update:lowScaleLength', +$event.target.value)"
@@ -38,7 +38,7 @@
           >High Scale Length (inches):</label
         >
         <input
-          class="w-[200px] border-solid border-2 rounded-md appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
+          class="text-[20px] w-[200px] border-solid border-2 rounded-md appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
           type="number"
           :value="highScaleLength"
           @input="$emit('update:highScaleLength', +$event.target.value)"
