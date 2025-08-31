@@ -1,6 +1,6 @@
 <template>
   <div
-    class="note-selector w-full flex flex-col-reverse justify-center relative"
+    class="note-selector w-full relative flex flex-col-reverse justify-center"
   >
     <button class="bg-gray-200 py-1" @click="decrementNote">Decrement</button>
     <select
@@ -28,14 +28,8 @@ import notesFrequencies from "@/utils/notesFrequencies.js";
 export default {
   name: "NoteSelector",
   props: {
-    index: {
-      type: Number,
-      required: true,
-    },
-    defaultNote: {
-      type: String,
-      required: true,
-    },
+    index: { type: Number, required: true },
+    defaultNote: { type: String, required: true },
   },
   data() {
     return {
@@ -65,10 +59,10 @@ export default {
   },
   watch: {
     selectedNote() {
-      this.$emit("update-note", {
-        index: this.index,
-        note: this.selectedNote,
-      });
+      this.$emit("update-note", { index: this.index, note: this.selectedNote });
+    },
+    defaultNote(newVal) {
+      this.selectedNote = newVal;
     },
   },
 };

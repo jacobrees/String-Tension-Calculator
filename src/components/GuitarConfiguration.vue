@@ -5,6 +5,24 @@
     <h3 class="text-[22px]">Guitar Configuration</h3>
     <div class="flex flex-col lg:flex-row">
       <div class="flex flex-col pr-[70px]">
+        <label class="text-[12px]">Instrument:</label>
+        <div class="relative w-[200px]">
+          <select
+            class="w-full border-solid border-2 rounded-md appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
+            :value="instrumentType"
+            @change="$emit('update:instrumentType', $event.target.value)"
+          >
+            <option value="guitar">Guitar</option>
+            <option value="bass">Bass</option>
+          </select>
+          <span
+            class="pointer-events-none text-[12px] absolute right-1 top-1/2 -translate-y-1/2 text-gray-500"
+          >
+            ▼
+          </span>
+        </div>
+      </div>
+      <div class="flex flex-col pr-[70px]">
         <label class="text-[12px]" for="lowScaleLength"
           >Low Scale Length (inches):</label
         >
@@ -36,7 +54,12 @@ export default {
   props: {
     lowScaleLength: Number,
     highScaleLength: Number,
+    instrumentType: String,
   },
-  emits: ["update:lowScaleLength", "update:highScaleLength"],
+  emits: [
+    "update:lowScaleLength",
+    "update:highScaleLength",
+    "update:instrumentType",
+  ],
 };
 </script>

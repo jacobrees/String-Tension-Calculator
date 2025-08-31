@@ -30,7 +30,7 @@ export default {
   name: "TopNavigation",
   data() {
     return {
-      githubLogo, // expose to template
+      githubLogo,
     };
   },
 };
