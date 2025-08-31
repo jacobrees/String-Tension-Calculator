@@ -120,9 +120,9 @@ export default {
   },
   methods: {
     setDefaultStrings() {
-      this.lowScaleLength = 25.5;
-      this.highScaleLength = 25.5;
       if (this.instrumentType === "guitar") {
+        this.lowScaleLength = 25.5;
+        this.highScaleLength = 25.5;
         this.strings = [
           {
             id: 1,
