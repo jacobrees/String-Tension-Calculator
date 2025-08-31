@@ -71,8 +71,10 @@
     <div
       class="w-full max-w-[1200px] mx-auto my-5 flex flex-row justify-center lg:block"
     >
-      <AddStringButton @add-string="addString" />
-      <RemoveLastStringButton @remove-last-string="removeLastString" />
+      <AddRemoveStringButtons
+        @add-string="addString"
+        @remove-last-string="removeLastString"
+      />
     </div>
   </div>
 </template>
@@ -80,10 +82,9 @@
 <script>
 import TopNavigation from "./components/TopNavigation.vue";
 import GuitarConfiguration from "./components/GuitarConfiguration.vue";
-import AddStringButton from "./components/AddStringButton.vue";
+import AddRemoveStringButtons from "./components/AddRemoveStringButtons.vue";
 import NoteSelector from "./components/NoteSelector.vue";
 import GaugeSelector from "./components/GaugeSelector.vue";
-import RemoveLastStringButton from "./components/RemoveLastStringButton.vue";
 import stringMasses from "@/utils/stringMasses.js";
 import notesFrequencies from "@/utils/notesFrequencies.js";
 
@@ -94,14 +95,13 @@ export default {
     GuitarConfiguration,
     NoteSelector,
     GaugeSelector,
-    AddStringButton,
-    RemoveLastStringButton,
+    AddRemoveStringButtons,
   },
 
   data() {
     return {
-      lowScaleLength: 25.5, // Default low scale length
-      highScaleLength: 25.5, // Default high scale length
+      lowScaleLength: 25.5,
+      highScaleLength: 25.5,
       gauges: Object.keys(stringMasses),
       strings: [
         {
@@ -110,7 +110,7 @@ export default {
           gauge: "0.010p",
           note: "E4",
           tension: null,
-          relativeScaleLength: null, // Default relative scale length
+          relativeScaleLength: null,
         },
         {
           id: 2,
@@ -118,7 +118,7 @@ export default {
           gauge: "0.013p",
           note: "B3",
           tension: null,
-          relativeScaleLength: null, // Default relative scale length
+          relativeScaleLength: null,
         },
         {
           id: 3,
@@ -126,7 +126,7 @@ export default {
           gauge: "0.017p",
           note: "G3",
           tension: null,
-          relativeScaleLength: null, // Default relative scale length
+          relativeScaleLength: null,
         },
         {
           id: 4,
@@ -134,7 +134,7 @@ export default {
           gauge: "0.026w",
           note: "D3",
           tension: null,
-          relativeScaleLength: null, // Default relative scale length
+          relativeScaleLength: null,
         },
         {
           id: 5,
@@ -142,7 +142,7 @@ export default {
           gauge: "0.036w",
           note: "A2",
           tension: null,
-          relativeScaleLength: null, // Default relative scale length
+          relativeScaleLength: null,
         },
         {
           id: 6,
@@ -150,7 +150,7 @@ export default {
           gauge: "0.046w",
           note: "E2",
           tension: null,
-          relativeScaleLength: null, // Default relative scale length
+          relativeScaleLength: null,
         },
       ],
     };
@@ -183,24 +183,12 @@ export default {
     calculateTension(index) {
       const string = this.strings[index];
       const frequency = notesFrequencies[string.note];
-
-      // Get the mass per unit length in lb/in
       let massPerLength = stringMasses[string.gauge];
-
-      // Convert mass per unit length from lb/in to kg/m
       const massPerLengthKgM = (massPerLength / 0.0254) * 0.453592;
-
-      // Convert scale length to meters
-      const scaleLengthMeters = string.relativeScaleLength * 0.0254; // Ensure this conversion is correct
-
-      // Calculate tension in Newtons using the formula T = μ * (2Lf)^2
+      const scaleLengthMeters = string.relativeScaleLength * 0.0254;
       const tensionNewtons =
         massPerLengthKgM * Math.pow(2 * scaleLengthMeters * frequency, 2);
-
-      // Convert Newtons to pounds
       const tensionPounds = tensionNewtons * 0.224809;
-
-      // Set the calculated tension for the string
       this.strings[index].tension = tensionPounds;
     },
 
@@ -210,14 +198,12 @@ export default {
       this.strings.push({
         note: newNote,
         tension: null,
-        gauge: "0.010", // Default gauge
-        type: "plain", // Default to plain string
+        gauge: "0.010",
+        type: "plain",
         label: `${this.strings.length + 1}`,
-        relativeScaleLength: null, // Default relative scale length
+        relativeScaleLength: null,
       });
-      // Calculate tension for the new string
       this.calculateTension(this.strings.length - 1);
-      // Recalculate relative scale lengths
       this.calculateRelativeScaleLengths();
     },
 
@@ -239,7 +225,6 @@ export default {
       const noteParts = note.match(/([A-G][#b]?)([0-9])/);
       const noteName = noteParts[1];
       const octave = parseInt(noteParts[2]);
-
       const noteIndex = chromaticScale.indexOf(noteName);
       const newIndex = (noteIndex - semitones + 12) % 12;
       const newOctave = octave + Math.floor((noteIndex - semitones) / 12);
@@ -251,7 +236,7 @@ export default {
       if (this.strings.length > 1) {
         this.strings.pop();
       }
-      // Recalculate relative scale lengths
+
       this.calculateRelativeScaleLengths();
     },
 
@@ -267,11 +252,10 @@ export default {
     },
   },
   mounted() {
-    // Calculate tension for all strings on app start
     this.strings.forEach((string, index) => {
       this.calculateTension(index);
     });
-    // Calculate relative scale lengths on app start
+
     this.calculateRelativeScaleLengths();
   },
 };
