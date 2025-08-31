@@ -4,7 +4,9 @@
     <GuitarConfiguration
       v-model:lowScaleLength="lowScaleLength"
       v-model:highScaleLength="highScaleLength"
+      v-model:instrumentType="instrumentType"
     />
+
     <div
       class="bg-white w-full max-w-[1200px] mx-auto rounded-lg border-solid border-2"
     >
@@ -25,9 +27,9 @@
         </thead>
         <tbody>
           <tr
-            class="border-b"
             v-for="(string, index) in strings"
             :key="string.id"
+            class="border-b"
           >
             <td class="border-r">
               <p class="w-full flex flex-row justify-center">
@@ -45,17 +47,18 @@
               <GaugeSelector
                 :index="index"
                 :defaultGauge="string.gauge"
+                :gauges="gauges"
                 @update-gauge="updateGauge(index, $event)"
               />
             </td>
-            <td class="border-r hidden lg:table-cell">
-              <p class="w-full flex flex-row justify-center">
-                {{
-                  typeof string.relativeScaleLength === "number"
-                    ? string.relativeScaleLength.toFixed(2)
-                    : "N/A"
-                }}
-              </p>
+            <td
+              class="border-r hidden lg:table-cell text-center justify-center"
+            >
+              {{
+                typeof string.relativeScaleLength === "number"
+                  ? string.relativeScaleLength.toFixed(2)
+                  : "N/A"
+              }}
             </td>
             <td>
               <p class="w-full flex flex-row justify-center">
@@ -68,6 +71,7 @@
         </tbody>
       </table>
     </div>
+
     <div
       class="w-full max-w-[1200px] mx-auto my-5 flex flex-row justify-center lg:block"
     >
@@ -97,116 +101,159 @@ export default {
     GaugeSelector,
     AddRemoveStringButtons,
   },
-
   data() {
     return {
       lowScaleLength: 25.5,
       highScaleLength: 25.5,
-      gauges: Object.keys(stringMasses),
-      strings: [
-        {
-          id: 1,
-          label: "1",
-          gauge: "0.010p",
-          note: "E4",
-          tension: null,
-          relativeScaleLength: null,
-        },
-        {
-          id: 2,
-          label: "2",
-          gauge: "0.013p",
-          note: "B3",
-          tension: null,
-          relativeScaleLength: null,
-        },
-        {
-          id: 3,
-          label: "3",
-          gauge: "0.017p",
-          note: "G3",
-          tension: null,
-          relativeScaleLength: null,
-        },
-        {
-          id: 4,
-          label: "4",
-          gauge: "0.026w",
-          note: "D3",
-          tension: null,
-          relativeScaleLength: null,
-        },
-        {
-          id: 5,
-          label: "5",
-          gauge: "0.036w",
-          note: "A2",
-          tension: null,
-          relativeScaleLength: null,
-        },
-        {
-          id: 6,
-          label: "6",
-          gauge: "0.046w",
-          note: "E2",
-          tension: null,
-          relativeScaleLength: null,
-        },
-      ],
+      instrumentType: "guitar",
+      gauges: Object.keys(stringMasses.guitar),
+      strings: [],
     };
   },
   watch: {
-    lowScaleLength() {
-      this.calculateRelativeScaleLengths();
-    },
-    highScaleLength() {
-      this.calculateRelativeScaleLengths();
+    lowScaleLength: "calculateRelativeScaleLengths",
+    highScaleLength: "calculateRelativeScaleLengths",
+    instrumentType(newType) {
+      this.gauges = Object.keys(stringMasses[newType]);
+      this.setDefaultStrings();
     },
   },
   methods: {
-    handleScaleUpdate({ low, high }) {
-      this.lowScaleLength = low;
-      this.highScaleLength = high;
+    setDefaultStrings() {
+      this.lowScaleLength = 25.5;
+      this.highScaleLength = 25.5;
+      if (this.instrumentType === "guitar") {
+        this.strings = [
+          {
+            id: 1,
+            label: "1",
+            gauge: "0.010p",
+            note: "E4",
+            tension: null,
+            relativeScaleLength: null,
+          },
+          {
+            id: 2,
+            label: "2",
+            gauge: "0.013p",
+            note: "B3",
+            tension: null,
+            relativeScaleLength: null,
+          },
+          {
+            id: 3,
+            label: "3",
+            gauge: "0.017p",
+            note: "G3",
+            tension: null,
+            relativeScaleLength: null,
+          },
+          {
+            id: 4,
+            label: "4",
+            gauge: "0.026w",
+            note: "D3",
+            tension: null,
+            relativeScaleLength: null,
+          },
+          {
+            id: 5,
+            label: "5",
+            gauge: "0.036w",
+            note: "A2",
+            tension: null,
+            relativeScaleLength: null,
+          },
+          {
+            id: 6,
+            label: "6",
+            gauge: "0.046w",
+            note: "E2",
+            tension: null,
+            relativeScaleLength: null,
+          },
+        ];
+      } else {
+        this.lowScaleLength = 34.0;
+        this.highScaleLength = 34.0;
+        this.strings = [
+          {
+            id: 1,
+            label: "1",
+            gauge: "0.045w",
+            note: "G2",
+            tension: null,
+            relativeScaleLength: null,
+          },
+          {
+            id: 2,
+            label: "2",
+            gauge: "0.060w",
+            note: "D2",
+            tension: null,
+            relativeScaleLength: null,
+          },
+          {
+            id: 3,
+            label: "3",
+            gauge: "0.080w",
+            note: "A1",
+            tension: null,
+            relativeScaleLength: null,
+          },
+          {
+            id: 4,
+            label: "4",
+            gauge: "0.105w",
+            note: "E1",
+            tension: null,
+            relativeScaleLength: null,
+          },
+        ];
+      }
       this.calculateRelativeScaleLengths();
     },
-
     updateNote(index, data) {
       this.strings[index].note = data.note;
       this.calculateTension(index);
     },
-
     updateGauge(index, data) {
       this.strings[index].gauge = data.gauge;
       this.calculateTension(index);
     },
-
     calculateTension(index) {
       const string = this.strings[index];
       const frequency = notesFrequencies[string.note];
-      let massPerLength = stringMasses[string.gauge];
+      const massPerLength = stringMasses[this.instrumentType][string.gauge];
+
+      if (!massPerLength) {
+        string.tension = null;
+        return;
+      }
+
       const massPerLengthKgM = (massPerLength / 0.0254) * 0.453592;
       const scaleLengthMeters = string.relativeScaleLength * 0.0254;
       const tensionNewtons =
         massPerLengthKgM * Math.pow(2 * scaleLengthMeters * frequency, 2);
-      const tensionPounds = tensionNewtons * 0.224809;
-      this.strings[index].tension = tensionPounds;
+      string.tension = tensionNewtons * 0.224809; // Convert N to lb
     },
-
     addString() {
       const lastNote = this.strings[this.strings.length - 1].note;
       const newNote = this.getNoteBelow(lastNote, 5);
       this.strings.push({
+        id: this.strings.length + 1,
+        label: `${this.strings.length + 1}`,
+        gauge: null,
         note: newNote,
         tension: null,
-        gauge: "0.010",
-        type: "plain",
-        label: `${this.strings.length + 1}`,
         relativeScaleLength: null,
       });
-      this.calculateTension(this.strings.length - 1);
       this.calculateRelativeScaleLengths();
     },
-
+    removeLastString() {
+      if (this.strings.length > 1) this.strings.pop();
+      this.calculateRelativeScaleLengths();
+    },
     getNoteBelow(note, semitones) {
       const chromaticScale = [
         "C",
@@ -222,41 +269,25 @@ export default {
         "A#",
         "B",
       ];
-      const noteParts = note.match(/([A-G][#b]?)([0-9])/);
-      const noteName = noteParts[1];
-      const octave = parseInt(noteParts[2]);
+      const [noteName, octave] = note.match(/([A-G][#b]?)([0-9])/).slice(1, 3);
       const noteIndex = chromaticScale.indexOf(noteName);
       const newIndex = (noteIndex - semitones + 12) % 12;
-      const newOctave = octave + Math.floor((noteIndex - semitones) / 12);
-
+      const newOctave =
+        parseInt(octave) + Math.floor((noteIndex - semitones) / 12);
       return chromaticScale[newIndex] + newOctave;
     },
-
-    removeLastString() {
-      if (this.strings.length > 1) {
-        this.strings.pop();
-      }
-
-      this.calculateRelativeScaleLengths();
-    },
-
     calculateRelativeScaleLengths() {
       const totalScaleLength = this.lowScaleLength - this.highScaleLength;
       this.strings.forEach((string, index) => {
-        const position = index; // Start from 0
         string.relativeScaleLength =
           this.highScaleLength +
-          totalScaleLength * (position / (this.strings.length - 1));
+          totalScaleLength * (index / (this.strings.length - 1));
         this.calculateTension(index);
       });
     },
   },
   mounted() {
-    this.strings.forEach((string, index) => {
-      this.calculateTension(index);
-    });
-
-    this.calculateRelativeScaleLengths();
+    this.setDefaultStrings();
   },
 };
 </script>
