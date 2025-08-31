@@ -24,7 +24,7 @@ export default {
   props: {
     index: { type: Number, required: true },
     defaultGauge: { type: String, required: true },
-    gauges: { type: Array, default: () => [] }, // Pass gauges from parent
+    gauges: { type: Array, default: () => [] },
   },
   data() {
     return {
@@ -36,7 +36,7 @@ export default {
       this.$emit("update-gauge", { index: this.index, gauge: newVal });
     },
     defaultGauge(newVal) {
-      this.selectedGauge = newVal; // Update if parent resets default
+      this.selectedGauge = newVal;
     },
   },
   methods: {
