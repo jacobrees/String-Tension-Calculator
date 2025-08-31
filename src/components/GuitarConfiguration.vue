@@ -27,7 +27,7 @@
           >Low Scale Length (inches):</label
         >
         <input
-          class="text-[20px] w-[200px] border-solid border-2 rounded-md appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
+          class="text-[20px] w-[200px] border-solid border-2 rounded-md appearance-none"
           type="number"
           :value="lowScaleLength"
           @input="$emit('update:lowScaleLength', +$event.target.value)"
@@ -38,7 +38,7 @@
           >High Scale Length (inches):</label
         >
         <input
-          class="text-[20px] w-[200px] border-solid border-2 rounded-md appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none [-moz-appearance:textfield]"
+          class="!text-black text-[20px] w-[200px] border-solid border-2 rounded-md appearance-none"
           type="number"
           :value="highScaleLength"
           @input="$emit('update:highScaleLength', +$event.target.value)"
