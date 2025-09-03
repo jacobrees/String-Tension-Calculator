@@ -1,10 +1,34 @@
+<script setup>
+import { ref, watch } from "vue";
+
+const props = defineProps({
+  index: { type: Number, required: true },
+  defaultGauge: { type: String, required: false, default: null },
+  gauges: { type: Array, default: () => [] },
+});
+
+const emit = defineEmits(["update-gauge"]);
+
+const selectedGauge = ref(props.defaultGauge);
+
+watch(selectedGauge, (newVal) => {
+  emit("update-gauge", { index: props.index, gauge: newVal });
+});
+
+watch(
+  () => props.defaultGauge,
+  (newVal) => {
+    selectedGauge.value = newVal;
+  }
+);
+</script>
+
 <template>
   <div class="gauge-selector w-full relative flex justify-center">
     <select
       class="bg-white block appearance-none text-center w-full py-1 border rounded-lg [text-align-last:center] pr-6"
       :id="'gauge' + index"
       v-model="selectedGauge"
-      @change="updateGauge"
     >
       <option v-for="gauge in gauges" :key="gauge" :value="gauge">
         {{ gauge }}
@@ -17,35 +41,3 @@
     </span>
   </div>
 </template>
-
-<script>
-export default {
-  name: "GaugeSelector",
-  props: {
-    index: { type: Number, required: true },
-    defaultGauge: { type: String, required: true },
-    gauges: { type: Array, default: () => [] },
-  },
-  data() {
-    return {
-      selectedGauge: this.defaultGauge,
-    };
-  },
-  watch: {
-    selectedGauge(newVal) {
-      this.$emit("update-gauge", { index: this.index, gauge: newVal });
-    },
-    defaultGauge(newVal) {
-      this.selectedGauge = newVal;
-    },
-  },
-  methods: {
-    emitGaugeUpdate() {
-      this.$emit("update-gauge", {
-        index: this.index,
-        gauge: this.selectedGauge,
-      });
-    },
-  },
-};
-</script>
