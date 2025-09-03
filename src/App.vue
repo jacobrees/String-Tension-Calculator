@@ -81,6 +81,7 @@
       />
     </div>
   </div>
+  <FooterSection />
 </template>
 
 <script>
@@ -89,6 +90,7 @@ import GuitarConfiguration from "./components/GuitarConfiguration.vue";
 import AddRemoveStringButtons from "./components/AddRemoveStringButtons.vue";
 import NoteSelector from "./components/NoteSelector.vue";
 import GaugeSelector from "./components/GaugeSelector.vue";
+import FooterSection from "./components/Footer.vue";
 import stringMasses from "@/utils/stringMasses.js";
 import notesFrequencies from "@/utils/notesFrequencies.js";
 
@@ -100,6 +102,7 @@ export default {
     NoteSelector,
     GaugeSelector,
     AddRemoveStringButtons,
+    FooterSection,
   },
   data() {
     return {
