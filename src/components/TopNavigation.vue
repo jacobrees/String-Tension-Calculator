@@ -1,3 +1,7 @@
+<script setup>
+import githubLogo from "@/assets/github.svg";
+</script>
+
 <template>
   <div
     class="w-full flex flex-row justify-center items-center py-2 border-b-2 bg-white"
@@ -23,15 +27,3 @@
     </div>
   </div>
 </template>
-
-<script>
-import githubLogo from "@/assets/github.svg";
-export default {
-  name: "TopNavigation",
-  data() {
-    return {
-      githubLogo,
-    };
-  },
-};
-</script>

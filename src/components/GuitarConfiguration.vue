@@ -1,3 +1,17 @@
+<script setup>
+const props = defineProps({
+  lowScaleLength: Number,
+  highScaleLength: Number,
+  instrumentType: String,
+});
+
+const emit = defineEmits([
+  "update:lowScaleLength",
+  "update:highScaleLength",
+  "update:instrumentType",
+]);
+</script>
+
 <template>
   <div
     class="bg-white w-full max-w-[1200px] mx-auto px-5 my-5 rounded-lg py-5 border-solid border-2"
@@ -9,8 +23,8 @@
         <div class="relative w-[200px]">
           <select
             class="text-[20px] bg-white block appearance-none rounded-lg w-[200px] border-solid border-2"
-            :value="instrumentType"
-            @change="$emit('update:instrumentType', $event.target.value)"
+            :value="props.instrumentType"
+            @change="emit('update:instrumentType', $event.target.value)"
           >
             <option class="text-[20px]" value="guitar">Guitar</option>
             <option class="text-[20px]" value="bass">Bass</option>
@@ -29,8 +43,8 @@
         <input
           class="text-[20px] w-[200px] border-solid border-2 rounded-md appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
           type="number"
-          :value="lowScaleLength"
-          @input="$emit('update:lowScaleLength', +$event.target.value)"
+          :value="props.lowScaleLength"
+          @input="emit('update:lowScaleLength', +$event.target.value)"
         />
       </div>
       <div class="flex flex-col pr-[70px]">
@@ -40,26 +54,10 @@
         <input
           class="!text-black text-[20px] w-[200px] border-solid border-2 rounded-md appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
           type="number"
-          :value="highScaleLength"
-          @input="$emit('update:highScaleLength', +$event.target.value)"
+          :value="props.highScaleLength"
+          @input="emit('update:highScaleLength', +$event.target.value)"
         />
       </div>
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  name: "GuitarConfiguration",
-  props: {
-    lowScaleLength: Number,
-    highScaleLength: Number,
-    instrumentType: String,
-  },
-  emits: [
-    "update:lowScaleLength",
-    "update:highScaleLength",
-    "update:instrumentType",
-  ],
-};
-</script>
