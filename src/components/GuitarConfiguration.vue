@@ -22,7 +22,7 @@ const emit = defineEmits([
         <label class="text-[12px]">Instrument:</label>
         <div class="relative w-[200px]">
           <select
-            class="text-[20px] bg-white block appearance-none rounded-lg w-[200px] border-solid border-2"
+            class="text-[20px] bg-white block appearance-none rounded-lg w-[200px] border-solid border-2 hover:cursor-pointer"
             :value="props.instrumentType"
             @change="emit('update:instrumentType', $event.target.value)"
           >

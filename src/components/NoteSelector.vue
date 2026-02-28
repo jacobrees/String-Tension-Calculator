@@ -40,7 +40,7 @@ watch(
   () => props.defaultNote,
   (newVal) => {
     selectedNote.value = newVal;
-  }
+  },
 );
 </script>
 
@@ -50,7 +50,7 @@ watch(
   >
     <button class="bg-gray-200 py-1" @click="decrementNote">Decrement</button>
     <select
-      class="bg-white block appearance-none text-center w-full py-1 border rounded-lg [text-align-last:center]"
+      class="bg-white block appearance-none text-center w-full py-1 border rounded-lg [text-align-last:center] hover:cursor-pointer"
       :id="'note' + props.index"
       v-model="selectedNote"
       @change="updateNote"
