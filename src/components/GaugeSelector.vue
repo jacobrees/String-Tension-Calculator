@@ -19,14 +19,14 @@ watch(
   () => props.defaultGauge,
   (newVal) => {
     selectedGauge.value = newVal;
-  }
+  },
 );
 </script>
 
 <template>
   <div class="gauge-selector w-full relative flex justify-center">
     <select
-      class="bg-white block appearance-none text-center w-full py-1 border rounded-lg [text-align-last:center] pr-6"
+      class="bg-white block appearance-none text-center w-full py-1 border rounded-lg [text-align-last:center] pr-6 hover:cursor-pointer"
       :id="'gauge' + index"
       v-model="selectedGauge"
     >
