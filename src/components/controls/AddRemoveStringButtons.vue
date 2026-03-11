@@ -1,8 +1,10 @@
 <script setup>
-const emit = defineEmits(["add-string", "remove-last-string"])
+const emit = defineEmits(["add-string", "remove-last-string"]);
+
 function addString() {
   emit("add-string");
 }
+
 function removeLastString() {
   emit("remove-last-string");
 }

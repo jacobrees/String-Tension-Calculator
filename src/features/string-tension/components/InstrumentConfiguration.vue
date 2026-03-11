@@ -16,7 +16,7 @@ const emit = defineEmits([
   <div
     class="bg-white w-full max-w-[1200px] mx-auto px-5 my-5 rounded-lg py-5 border-solid border-2"
   >
-    <h3 class="text-[22px]">Guitar Configuration</h3>
+    <h3 class="text-[22px]">Instrument Configuration</h3>
     <div class="flex flex-col lg:flex-row">
       <div class="flex flex-col pr-[70px]">
         <label class="text-[12px]">Instrument:</label>

@@ -1,6 +1,4 @@
 <script setup>
-import { ref, watch } from "vue";
-
 const props = defineProps({
   index: { type: Number, required: true },
   defaultGauge: { type: String, required: false, default: null },
@@ -8,19 +6,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["update-gauge"]);
-
-const selectedGauge = ref(props.defaultGauge);
-
-watch(selectedGauge, (newVal) => {
-  emit("update-gauge", { index: props.index, gauge: newVal });
-});
-
-watch(
-  () => props.defaultGauge,
-  (newVal) => {
-    selectedGauge.value = newVal;
-  },
-);
 </script>
 
 <template>
@@ -28,7 +13,8 @@ watch(
     <select
       class="bg-white block appearance-none text-center w-full py-1 border rounded-lg [text-align-last:center] pr-6 hover:cursor-pointer"
       :id="'gauge' + index"
-      v-model="selectedGauge"
+      :value="props.defaultGauge"
+      @change="emit('update-gauge', { gauge: $event.target.value })"
     >
       <option v-for="gauge in gauges" :key="gauge" :value="gauge">
         {{ gauge }}

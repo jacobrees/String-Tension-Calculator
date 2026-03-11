@@ -1,0 +1,96 @@
+const instrumentPresets = {
+  guitar: {
+    lowScaleLength: 25.5,
+    highScaleLength: 25.5,
+    strings: [
+      {
+        id: 1,
+        label: "1",
+        gauge: "0.010p",
+        note: "E4",
+        tension: null,
+        relativeScaleLength: null,
+      },
+      {
+        id: 2,
+        label: "2",
+        gauge: "0.013p",
+        note: "B3",
+        tension: null,
+        relativeScaleLength: null,
+      },
+      {
+        id: 3,
+        label: "3",
+        gauge: "0.017p",
+        note: "G3",
+        tension: null,
+        relativeScaleLength: null,
+      },
+      {
+        id: 4,
+        label: "4",
+        gauge: "0.026w",
+        note: "D3",
+        tension: null,
+        relativeScaleLength: null,
+      },
+      {
+        id: 5,
+        label: "5",
+        gauge: "0.036w",
+        note: "A2",
+        tension: null,
+        relativeScaleLength: null,
+      },
+      {
+        id: 6,
+        label: "6",
+        gauge: "0.046w",
+        note: "E2",
+        tension: null,
+        relativeScaleLength: null,
+      },
+    ],
+  },
+  bass: {
+    lowScaleLength: 34.0,
+    highScaleLength: 34.0,
+    strings: [
+      {
+        id: 1,
+        label: "1",
+        gauge: "0.045w",
+        note: "G2",
+        tension: null,
+        relativeScaleLength: null,
+      },
+      {
+        id: 2,
+        label: "2",
+        gauge: "0.060w",
+        note: "D2",
+        tension: null,
+        relativeScaleLength: null,
+      },
+      {
+        id: 3,
+        label: "3",
+        gauge: "0.080w",
+        note: "A1",
+        tension: null,
+        relativeScaleLength: null,
+      },
+      {
+        id: 4,
+        label: "4",
+        gauge: "0.105w",
+        note: "E1",
+        tension: null,
+        relativeScaleLength: null,
+      },
+    ],
+  },
+};
+
+export default instrumentPresets;

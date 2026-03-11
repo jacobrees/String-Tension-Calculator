@@ -1,6 +1,5 @@
 <script setup>
-import { ref, watch } from "vue";
-import notesFrequencies from "@/utils/notesFrequencies.js";
+import notesFrequencies from "@/data/notesFrequencies.js";
 
 const props = defineProps({
   index: { type: Number, required: true },
@@ -9,39 +8,24 @@ const props = defineProps({
 
 const emit = defineEmits(["update-note"]);
 
-const selectedNote = ref(props.defaultNote);
 const notes = notesFrequencies;
+const notesArray = Object.keys(notes);
 
-function updateNote() {
-  emit("update-note", { index: props.index, note: selectedNote.value });
+function updateNote(note) {
+  emit("update-note", { note });
 }
 
 function incrementNote() {
-  const notesArray = Object.keys(notes);
-  const currentIndex = notesArray.indexOf(selectedNote.value);
+  const currentIndex = notesArray.indexOf(props.defaultNote);
   const newIndex = (currentIndex + 1) % notesArray.length;
-  selectedNote.value = notesArray[newIndex];
-  updateNote();
+  updateNote(notesArray[newIndex]);
 }
 
 function decrementNote() {
-  const notesArray = Object.keys(notes);
-  const currentIndex = notesArray.indexOf(selectedNote.value);
+  const currentIndex = notesArray.indexOf(props.defaultNote);
   const newIndex = (currentIndex - 1 + notesArray.length) % notesArray.length;
-  selectedNote.value = notesArray[newIndex];
-  updateNote();
+  updateNote(notesArray[newIndex]);
 }
-
-watch(selectedNote, () => {
-  updateNote();
-});
-
-watch(
-  () => props.defaultNote,
-  (newVal) => {
-    selectedNote.value = newVal;
-  },
-);
 </script>
 
 <template>
@@ -52,8 +36,8 @@ watch(
     <select
       class="bg-white block appearance-none text-center w-full py-1 border rounded-lg [text-align-last:center] hover:cursor-pointer"
       :id="'note' + props.index"
-      v-model="selectedNote"
-      @change="updateNote"
+      :value="props.defaultNote"
+      @change="updateNote($event.target.value)"
     >
       <option v-for="(freq, note) in notes" :key="note" :value="note">
         {{ note }}
