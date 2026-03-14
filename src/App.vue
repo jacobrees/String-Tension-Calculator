@@ -1,10 +1,10 @@
 <script setup>
-import AddRemoveStringButtons from "@/components/controls/AddRemoveStringButtons.vue";
 import FooterSection from "@/components/layout/Footer.vue";
 import TopNavigation from "@/components/layout/TopNavigation.vue";
 import { useStringTension } from "@/composables/useStringTension.js";
 import InstrumentConfiguration from "@/features/string-tension/components/InstrumentConfiguration.vue";
 import StringTensionTable from "@/features/string-tension/components/StringTensionTable.vue";
+import TensionEquationPanel from "@/features/string-tension/components/TensionEquationPanel.vue";
 
 const {
   gauges,
@@ -20,29 +20,34 @@ const {
 </script>
 
 <template>
-  <div id="app">
+  <div id="app" class="pb-6">
     <TopNavigation />
-    <InstrumentConfiguration
-      v-model:lowScaleLength="lowScaleLength"
-      v-model:highScaleLength="highScaleLength"
-      v-model:instrumentType="instrumentType"
-    />
+    <main class="py-5 space-y-5">
+      <div class="app-shell">
+        <InstrumentConfiguration
+          v-model:lowScaleLength="lowScaleLength"
+          v-model:highScaleLength="highScaleLength"
+          v-model:instrumentType="instrumentType"
+        />
+      </div>
 
-    <StringTensionTable
-      :gauges="gauges"
-      :strings="strings"
-      @update-note="updateNote"
-      @update-gauge="updateGauge"
-    />
-
-    <div
-      class="w-full max-w-[1200px] mx-auto my-5 flex flex-row justify-center lg:block"
-    >
-      <AddRemoveStringButtons
-        @add-string="addString"
-        @remove-last-string="removeLastString"
-      />
-    </div>
+      <div class="app-shell">
+        <div
+          class="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_360px] gap-6 items-start"
+        >
+          <StringTensionTable
+            :can-remove="strings.length > 1"
+            :gauges="gauges"
+            :strings="strings"
+            @add-string="addString"
+            @remove-last-string="removeLastString"
+            @update-note="updateNote"
+            @update-gauge="updateGauge"
+          />
+          <TensionEquationPanel class="xl:sticky xl:top-5" />
+        </div>
+      </div>
+    </main>
   </div>
   <FooterSection />
 </template>

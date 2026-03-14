@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from "vue";
 import notesFrequencies from "@/data/notesFrequencies.js";
 
 const props = defineProps({
@@ -8,46 +9,63 @@ const props = defineProps({
 
 const emit = defineEmits(["update-note"]);
 
-const notes = notesFrequencies;
-const notesArray = Object.keys(notes);
+const notesArray = Object.keys(notesFrequencies);
+const currentNote = computed(() =>
+  notesArray.includes(props.defaultNote)
+    ? props.defaultNote
+    : (notesArray[0] ?? ""),
+);
 
-function updateNote(note) {
-  emit("update-note", { note });
+function emitNoteByIndex(index) {
+  if (!notesArray.length) {
+    return;
+  }
+
+  const normalizedIndex =
+    ((index % notesArray.length) + notesArray.length) % notesArray.length;
+  emit("update-note", { note: notesArray[normalizedIndex] });
 }
 
 function incrementNote() {
-  const currentIndex = notesArray.indexOf(props.defaultNote);
-  const newIndex = (currentIndex + 1) % notesArray.length;
-  updateNote(notesArray[newIndex]);
+  const currentIndex = notesArray.indexOf(currentNote.value);
+  emitNoteByIndex(currentIndex + 1);
 }
 
 function decrementNote() {
-  const currentIndex = notesArray.indexOf(props.defaultNote);
-  const newIndex = (currentIndex - 1 + notesArray.length) % notesArray.length;
-  updateNote(notesArray[newIndex]);
+  const currentIndex = notesArray.indexOf(currentNote.value);
+  emitNoteByIndex(currentIndex - 1);
 }
 </script>
 
 <template>
   <div
-    class="note-selector w-full relative flex flex-col-reverse justify-center"
+    class="note-selector w-full flex items-center"
+    role="group"
+    :aria-label="'String ' + (props.index + 1) + ' note controls'"
   >
-    <button class="bg-gray-200 py-1" @click="decrementNote">Decrement</button>
-    <select
-      class="bg-white block appearance-none text-center w-full py-1 border rounded-lg [text-align-last:center] hover:cursor-pointer"
-      :id="'note' + props.index"
-      :value="props.defaultNote"
-      @change="updateNote($event.target.value)"
+    <button
+      type="button"
+      class="h-10 w-10 rounded-l-md border border-[var(--color-border-strong)] bg-[var(--color-surface-muted)] text-lg font-semibold leading-none text-[var(--color-text)] hover:bg-[var(--color-surface)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]"
+      :aria-label="'Lower note for string ' + (props.index + 1)"
+      @click="decrementNote"
     >
-      <option v-for="(freq, note) in notes" :key="note" :value="note">
-        {{ note }}
-      </option>
-    </select>
-    <span
-      class="pointer-events-none text-[12px] absolute inset-y-0 right-1 flex items-center text-gray-500"
+      -
+    </button>
+
+    <output
+      class="h-10 flex-1 border-y border-[var(--color-border-strong)] bg-[var(--color-surface)] px-2 text-center text-base font-semibold text-[var(--color-text)] flex items-center justify-center"
+      aria-live="polite"
     >
-      ▼
-    </span>
-    <button class="bg-gray-200 py-1" @click="incrementNote">Increment</button>
+      {{ currentNote }}
+    </output>
+
+    <button
+      type="button"
+      class="h-10 w-10 rounded-r-md border border-[var(--color-border-strong)] bg-[var(--color-surface-muted)] text-lg font-semibold leading-none text-[var(--color-text)] hover:bg-[var(--color-surface)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]"
+      :aria-label="'Raise note for string ' + (props.index + 1)"
+      @click="incrementNote"
+    >
+      +
+    </button>
   </div>
 </template>

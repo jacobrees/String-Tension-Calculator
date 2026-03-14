@@ -22,8 +22,21 @@ function getNoteBelow(note, semitones) {
     "A#",
     "B",
   ];
-  const [noteName, octave] = note.match(/([A-G][#b]?)([0-9])/).slice(1, 3);
+  if (typeof note !== "string") {
+    return null;
+  }
+
+  const match = note.match(/^([A-G][#b]?)(-?\d+)$/);
+  if (!match) {
+    return null;
+  }
+
+  const [, noteName, octave] = match;
   const noteIndex = chromaticScale.indexOf(noteName);
+  if (noteIndex < 0) {
+    return null;
+  }
+
   const newIndex = (noteIndex - semitones + 12) % 12;
   const newOctave =
     parseInt(octave, 10) + Math.floor((noteIndex - semitones) / 12);
@@ -115,18 +128,34 @@ export function useStringTension() {
   }
 
   function updateNote(index, data) {
-    strings[index].note = data.note;
+    const string = strings[index];
+    if (!string) {
+      return;
+    }
+
+    string.note = data.note;
     calculateTension(index);
   }
 
   function updateGauge(index, data) {
-    strings[index].gauge = data.gauge;
+    const string = strings[index];
+    if (!string) {
+      return;
+    }
+
+    string.gauge = data.gauge;
     calculateTension(index);
   }
 
   function addString() {
-    const lastNote = strings[strings.length - 1].note;
-    const newNote = getNoteBelow(lastNote, 5);
+    const lastString = strings[strings.length - 1];
+    const presetStrings =
+      instrumentPresets[instrumentType.value]?.strings ?? [];
+    const fallbackPresetNote =
+      presetStrings[presetStrings.length - 1]?.note ?? "E2";
+    const baseNote = lastString?.note ?? fallbackPresetNote;
+    const newNote = getNoteBelow(baseNote, 5) ?? baseNote;
+
     strings.push({
       id: strings.length + 1,
       label: `${strings.length + 1}`,
@@ -147,7 +176,9 @@ export function useStringTension() {
 
   watch([lowScaleLength, highScaleLength], calculateRelativeScaleLengths);
   watch(instrumentType, (newType) => {
-    gauges.value = Object.keys(stringMasses[newType]);
+    gauges.value = stringMasses[newType]
+      ? Object.keys(stringMasses[newType])
+      : [];
     applyInstrumentPreset(newType);
   });
 
