@@ -29,9 +29,6 @@ defineEmits([
       >
         String Tension Analysis
       </h2>
-      <p class="text-sm mt-1 text-[var(--color-text-muted)]">
-        All tensions shown in lb
-      </p>
     </div>
 
     <div class="md:hidden px-5 py-5 space-y-4 bg-[var(--color-surface)]">
