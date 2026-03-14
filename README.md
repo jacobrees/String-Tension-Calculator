@@ -4,7 +4,7 @@
 
 ### String Tension Calculator Screenshot:
 
-![](screenshot/screenshot.png)
+![](screenshot/screenshot.jpg)
 
 # Live Website
 
