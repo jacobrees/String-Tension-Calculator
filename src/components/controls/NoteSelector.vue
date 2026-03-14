@@ -33,9 +33,13 @@ function decrementNote() {
     class="note-selector w-full relative flex flex-col-reverse justify-center"
   >
     <button class="bg-gray-200 py-1" @click="decrementNote">Decrement</button>
+    <label class="sr-only" :for="'note' + props.index">
+      String {{ props.index + 1 }} note
+    </label>
     <select
       class="bg-white block appearance-none text-center w-full py-1 border rounded-lg [text-align-last:center] hover:cursor-pointer"
       :id="'note' + props.index"
+      :name="'note' + props.index"
       :value="props.defaultNote"
       @change="updateNote($event.target.value)"
     >

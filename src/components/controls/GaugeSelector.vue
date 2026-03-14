@@ -10,9 +10,13 @@ const emit = defineEmits(["update-gauge"]);
 
 <template>
   <div class="gauge-selector w-full relative flex justify-center">
+    <label class="sr-only" :for="'gauge' + props.index">
+      String {{ props.index + 1 }} gauge
+    </label>
     <select
       class="bg-white block appearance-none text-center w-full py-1 border rounded-lg [text-align-last:center] pr-6 hover:cursor-pointer"
-      :id="'gauge' + index"
+      :id="'gauge' + props.index"
+      :name="'gauge' + props.index"
       :value="props.defaultGauge"
       @change="emit('update-gauge', { gauge: $event.target.value })"
     >
