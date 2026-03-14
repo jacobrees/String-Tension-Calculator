@@ -12,8 +12,8 @@
           String Tension Calculator
         </h1>
         <p class="text-[14px] text-[var(--color-text-muted)] max-w-[680px]">
-          Calculate precise string tension of hex core, nickel plated steel
-          guitar strings (Ernie Ball, D'Addario, Newtone Strings)
+          Calculate precise string tension of round wound, hex core, nickel
+          plated steel guitar strings (Ernie Ball, D'Addario, Newtone Strings)
         </p>
       </div>
     </div>
