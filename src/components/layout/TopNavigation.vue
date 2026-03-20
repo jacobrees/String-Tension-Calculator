@@ -26,10 +26,10 @@ const creatorWebsiteUrl = "https://needthickerstrings.netlify.app";
       </div>
 
       <div
-        class="shrink-0 flex items-center justify-end gap-1.5 sm:gap-2 self-start"
+        class="shrink-0 flex items-center justify-end gap-1.5 md:gap-2 self-start"
       >
         <p
-          class="hidden sm:block text-[13px] text-[var(--color-text-muted)] leading-[1.2] text-right"
+          class="hidden lg:block text-[13px] text-[var(--color-text-muted)] leading-[1.2] text-right"
         >
           <span class="block">Main website</span>
           <span class="block">
