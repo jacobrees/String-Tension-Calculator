@@ -1,94 +1,134 @@
-# String Tension Calculator
+<h1 align="center">🎸 String Tension Calculator</h1>
 
-> This project is a String Tension Calculator for hex core, nickel-plated steel guitar strings. It is a project built with Vue.js
+<p align="center">
+  A modern string tension calculator for hex core, nickel-plated steel guitar strings.<br>
+  Built with Vue.js, Vite, and Tailwind.
+</p>
 
-### String Tension Calculator Screenshot:
+<p align="center">
+  <a href="https://stringtensioncalculator.netlify.app"><strong>🔗 Live Demo</strong></a>
+</p>
 
-![](screenshot/screenshot.jpg)
+---
 
-# Live Website
+## 📚 Table of Contents
 
-### [View Website](https://stringtensioncalculator.netlify.app)
+- [Preview](#-preview)
+- [Live Website](#-live-website)
+- [Features](#-features)
+- [Getting Started](#-getting-started)
+- [Scripts](#-scripts)
+- [Built With](#-built-with)
+- [Author](#-author)
+- [Contributing](#-contributing)
+- [Support](#-support)
+- [License](#-license)
+- [Trademark Disclaimer](#-trademark-disclaimer)
 
-# Getting Started
+---
 
-To get a local copy of the repository please run the following commands in your terminal:
+## 📸 Preview
 
+<p align="center">
+  <img src="screenshot/screenshot.jpg" alt="String Tension Calculator Screenshot" width="800"/>
+</p>
+
+---
+
+## 🌐 Live Website
+
+👉 https://stringtensioncalculator.netlify.app
+
+---
+
+## ✨ Features
+
+- Calculate string tension based on:
+  - Gauge
+  - Scale length
+  - Tuning
+- Clean and responsive UI
+- Fast performance with Vite
+- Lightweight and easy to use
+
+---
+
+## 🚀 Getting Started
+
+Clone the repository:
+
+```bash
+git clone git@github.com:jacobrees/String-Tension-Calculator.git
 ```
-$ cd <folder>
+
+Navigate into the project:
+
+```bash
+cd String-Tension-Calculator
 ```
 
-```
-$ git clone git@github.com:jacobrees/String-Tension-Calculator.git
-```
+Install dependencies:
 
-To launch an instance of this app. Inside your terminal, you will need to navigate into the repository you have just cloned. You will do this by using `cd` inside of your terminal.
-
-Once you are inside of this folder run the command `npm install` to install all dependencies & `npm run dev` to run the project on a development server.
-
-Below shows the following commands you will need to run to achieve this:
-
-```
-$ cd String-Tension-Calculator
+```bash
+npm install
 ```
 
-```
-$ npm install
-```
+Run the development server:
 
-```
-$ npm run dev
+```bash
+npm run dev
 ```
 
-# Scripts
+---
 
-Below are a list of scripts you can use with Vite.
+## 🛠 Scripts
 
-run `npm install` to install all packages associated with project. You will need to do this before you can run any of the other commands listed below.
+| Command | Description |
+|--------|------------|
+| `npm install` | Install dependencies |
+| `npm run dev` | Start development server |
+| `npm run build` | Build for production |
 
-```
-$ npm install
-```
+---
 
-run `npm run dev` to start a development server.
-
-```
-$ npm run dev
-```
-
-run `npm run build` to bundle all code into the dist directory.
-
-```
-$ npm run build
-```
-
-## Built With
+## 🧱 Built With
 
 - Vue.js
-- Tailwind
+- Tailwind CSS
 - Vite
 
-## Authors
+---
 
-👤 **Jacob Rees**
+## 👤 Author
 
-- Github: [@jacobrees](https://github.com/jacobrees)
-- Linkedin: [jacob-rees](https://www.linkedin.com/in/jacob-rees/)
+**Jacob Rees**
+
+- GitHub: https://github.com/jacobrees  
+- LinkedIn: https://www.linkedin.com/in/jacob-rees/
+
+---
 
 ## 🤝 Contributing
 
-Contributions, issues and feature requests are welcome!
+Contributions, issues, and feature requests are welcome.
 
-## Show your support
+---
 
-Give a ⭐️ if you like this project!
+## ⭐ Support
 
-## License
+If you found this project useful, consider giving it a star.
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+---
 
-## Trademark Disclaimer
+## 📄 License
+
+This project is licensed under the MIT License.  
+See the [LICENSE](LICENSE) file for details.
+
+---
+
+## ⚖️ Trademark Disclaimer
 
 All product names, trademarks, and brand names (including but not limited to Ernie Ball, D’Addario, etc.) are the property of their respective owners.
 
-These names are used for identification and reference purposes only and do not imply any affiliation with or endorsement by the respective trademark holders.
+They are used for identification and reference purposes only and do not imply any affiliation with or endorsement by the respective trademark holders.
