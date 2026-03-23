@@ -23,7 +23,6 @@
 - [Contributing](#-contributing)
 - [Support](#-support)
 - [License](#-license)
-- [Trademark Disclaimer](#-trademark-disclaimer)
 
 ---
 
@@ -125,9 +124,7 @@ If you found this project useful, consider giving it a star.
 This project is licensed under the MIT License.  
 See the [LICENSE](LICENSE) file for details.
 
----
-
-## ⚖️ Trademark Disclaimer
+#### ⚖️ Trademark Disclaimer
 
 All product names, trademarks, and brand names (including but not limited to Ernie Ball, D’Addario, etc.) are the property of their respective owners.
 
