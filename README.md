@@ -82,3 +82,13 @@ Contributions, issues and feature requests are welcome!
 ## Show your support
 
 Give a ⭐️ if you like this project!
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Trademark Disclaimer
+
+All product names, trademarks, and brand names (including but not limited to Ernie Ball, D’Addario, etc.) are the property of their respective owners.
+
+These names are used for identification and reference purposes only and do not imply any affiliation with or endorsement by the respective trademark holders.
