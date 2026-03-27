@@ -3,8 +3,48 @@ import instrumentPresets from "@/data/instrumentPresets.js";
 import notesFrequencies from "@/data/notesFrequencies.js";
 import stringMasses from "@/data/stringMasses.js";
 
+const GUITAR_STRING_SELECTOR_START_INDEX = 6;
+
 function clonePresetStrings(strings) {
   return strings.map((string) => ({ ...string }));
+}
+
+function parseGaugeValue(gauge) {
+  if (typeof gauge !== "string") {
+    return null;
+  }
+
+  const parsedValue = Number.parseFloat(gauge);
+  return Number.isFinite(parsedValue) ? parsedValue : null;
+}
+
+function findClosestGauge(currentGauge, nextGaugeOptions) {
+  const currentGaugeValue = parseGaugeValue(currentGauge);
+  if (currentGaugeValue === null || !nextGaugeOptions.length) {
+    return nextGaugeOptions[0] ?? null;
+  }
+
+  return nextGaugeOptions.reduce((closestGauge, candidateGauge) => {
+    const closestGaugeValue = parseGaugeValue(closestGauge);
+    const candidateGaugeValue = parseGaugeValue(candidateGauge);
+
+    if (candidateGaugeValue === null) {
+      return closestGauge;
+    }
+
+    if (closestGaugeValue === null) {
+      return candidateGauge;
+    }
+
+    const closestDifference = Math.abs(closestGaugeValue - currentGaugeValue);
+    const candidateDifference = Math.abs(
+      candidateGaugeValue - currentGaugeValue,
+    );
+
+    return candidateDifference < closestDifference
+      ? candidateGauge
+      : closestGauge;
+  }, nextGaugeOptions[0]);
 }
 
 function getNoteBelow(note, semitones) {
@@ -47,8 +87,57 @@ export function useStringTension() {
   const instrumentType = ref("guitar");
   const lowScaleLength = ref(instrumentPresets.guitar.lowScaleLength);
   const highScaleLength = ref(instrumentPresets.guitar.highScaleLength);
-  const gauges = ref(Object.keys(stringMasses.guitar));
   const strings = reactive([]);
+
+  function canSelectStringType(index) {
+    return (
+      instrumentType.value === "guitar" &&
+      index >= GUITAR_STRING_SELECTOR_START_INDEX
+    );
+  }
+
+  function getResolvedStringType(index) {
+    if (instrumentType.value !== "guitar") {
+      return "bass";
+    }
+
+    if (!canSelectStringType(index)) {
+      return "guitar";
+    }
+
+    return strings[index]?.stringType === "bass" ? "bass" : "guitar";
+  }
+
+  function getGaugeOptions(index) {
+    return Object.keys(stringMasses[getResolvedStringType(index)] ?? {});
+  }
+
+  function normalizeString(index) {
+    const string = strings[index];
+    if (!string) {
+      return;
+    }
+
+    string.stringType = getResolvedStringType(index);
+  }
+
+  function syncGaugeWithStringType(index) {
+    const string = strings[index];
+    if (!string) {
+      return;
+    }
+
+    const nextGaugeOptions = getGaugeOptions(index);
+    if (!nextGaugeOptions.length) {
+      string.gauge = null;
+      string.tension = null;
+      return;
+    }
+
+    if (string.gauge !== null && !nextGaugeOptions.includes(string.gauge)) {
+      string.gauge = findClosestGauge(string.gauge, nextGaugeOptions);
+    }
+  }
 
   function calculateTension(index) {
     const string = strings[index];
@@ -57,7 +146,8 @@ export function useStringTension() {
     }
 
     const frequency = notesFrequencies[string.note];
-    const massPerLength = stringMasses[instrumentType.value][string.gauge];
+    const massPerLength =
+      stringMasses[getResolvedStringType(index)]?.[string.gauge];
     const relativeScaleLength = Number(string.relativeScaleLength);
 
     if (
@@ -124,6 +214,10 @@ export function useStringTension() {
     lowScaleLength.value = preset.lowScaleLength;
     highScaleLength.value = preset.highScaleLength;
     strings.splice(0, strings.length, ...clonePresetStrings(preset.strings));
+    strings.forEach((_, index) => {
+      normalizeString(index);
+      syncGaugeWithStringType(index);
+    });
     calculateRelativeScaleLengths();
   }
 
@@ -147,6 +241,17 @@ export function useStringTension() {
     calculateTension(index);
   }
 
+  function updateStringType(index, data) {
+    const string = strings[index];
+    if (!string || !canSelectStringType(index)) {
+      return;
+    }
+
+    string.stringType = data.stringType === "bass" ? "bass" : "guitar";
+    syncGaugeWithStringType(index);
+    calculateTension(index);
+  }
+
   function addString() {
     const lastString = strings[strings.length - 1];
     const presetStrings =
@@ -161,9 +266,11 @@ export function useStringTension() {
       label: `${strings.length + 1}`,
       gauge: null,
       note: newNote,
+      stringType: instrumentType.value === "bass" ? "bass" : "guitar",
       tension: null,
       relativeScaleLength: null,
     });
+    normalizeString(strings.length - 1);
     calculateRelativeScaleLengths();
   }
 
@@ -176,9 +283,6 @@ export function useStringTension() {
 
   watch([lowScaleLength, highScaleLength], calculateRelativeScaleLengths);
   watch(instrumentType, (newType) => {
-    gauges.value = stringMasses[newType]
-      ? Object.keys(stringMasses[newType])
-      : [];
     applyInstrumentPreset(newType);
   });
 
@@ -187,14 +291,16 @@ export function useStringTension() {
   });
 
   return {
-    gauges,
     highScaleLength,
     instrumentType,
     lowScaleLength,
     strings,
     addString,
+    canSelectStringType,
+    getGaugeOptions,
     removeLastString,
     updateGauge,
     updateNote,
+    updateStringType,
   };
 }
