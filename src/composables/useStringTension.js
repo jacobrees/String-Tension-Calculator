@@ -3,8 +3,6 @@ import instrumentPresets from "@/data/instrumentPresets.js";
 import notesFrequencies from "@/data/notesFrequencies.js";
 import stringMasses from "@/data/stringMasses.js";
 
-const GUITAR_STRING_SELECTOR_START_INDEX = 6;
-
 function clonePresetStrings(strings) {
   return strings.map((string) => ({ ...string }));
 }
@@ -89,11 +87,8 @@ export function useStringTension() {
   const highScaleLength = ref(instrumentPresets.guitar.highScaleLength);
   const strings = reactive([]);
 
-  function canSelectStringType(index) {
-    return (
-      instrumentType.value === "guitar" &&
-      index >= GUITAR_STRING_SELECTOR_START_INDEX
-    );
+  function canSelectStringType() {
+    return instrumentType.value === "guitar";
   }
 
   function getResolvedStringType(index) {
