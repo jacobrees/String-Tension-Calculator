@@ -4,20 +4,20 @@
 @tailwind utilities;
 
 :root {
-  --color-canvas: #f3f5f8;
+  --color-canvas: #f4f5f6;
   --color-surface: #ffffff;
-  --color-surface-soft: #f8fafc;
-  --color-surface-muted: #f1f5f9;
-  --color-surface-tint: #eef2ff;
-  --color-border: #cbd5e1;
-  --color-border-strong: #94a3b8;
+  --color-surface-soft: #f7f7f8;
+  --color-surface-muted: #eff1f3;
+  --color-surface-tint: #e8ebee;
+  --color-border: #d2d6dc;
+  --color-border-strong: #a5adb8;
   --color-text: #0f172a;
   --color-text-muted: #334155;
   --color-accent: #2563eb;
   --color-accent-hover: #1d4ed8;
   --color-accent-alt: #1d4ed8;
   --color-accent-alt-hover: #1e40af;
-  --color-header: #e2e8f0;
+  --color-header: #e6e8eb;
   --color-warm-surface: #fff7ed;
   --color-warm-border: #fed7aa;
   --color-warm-text: #9a3412;
@@ -139,7 +139,7 @@ textarea {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(37, 99, 235, 0.24) 50%,
+    rgba(148, 163, 184, 0.28) 50%,
     transparent 100%
   );
 }
